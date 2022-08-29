@@ -35,7 +35,7 @@ pip3 install -r requirements.txt (install the required packages)
 ```
 
 ### How to run this project?  
-1. Create a new file `server.py` in the root directory. 
+1. Create a new file `serverInfo.py` in the root directory. 
 2. Update the credentials to match the database credentials to store the data. See `exampleServerInfo.py` for database variables 
 3. In the project directory, run the following:<br/><br/>
 ``` python3 app.py ```<br/>
