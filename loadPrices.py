@@ -1,0 +1,64 @@
+from re import S
+from tkinter import E
+import pandas as pd
+import yfinance as yf
+from yahoofinancials import YahooFinancials
+import SQLQueries as q 
+import databaseBuild as db
+import csv
+
+def load(ticker, startDate, endDate): #Downloads stock data and outputs it to a text file. 
+    stock_df = yf.download(ticker, 
+                            start = startDate, 
+                            end = endDate, 
+                            progress = False) #Downloads stocks and saves it in the corresponding dataframe.
+    f = open('prices.txt', 'w') #Overrides the current content in the file.
+    f.write(stock_df.to_string(header = True, index = True)) #Writes the dataframe to the prices.txt file. 
+    f.close()
+
+def write_to_csv(header, body): #Writes the data to the 'prices.csv' file. 
+    with open('prices.csv', 'w', encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(body)
+
+def readDailyPrices(lst): #Reads the data from prices.txt 
+    with open("prices.txt") as file:
+        for i, line in enumerate(file):
+            if i < 2: 
+                continue
+            else:
+                temp = []
+                for word in line.split():
+                    temp.append(word)
+                lst.append(temp)
+
+def column_to_list(data):
+    return [row for row in data]
+
+def getPriceData(ticker, startDate, endDate):
+    db.buildDB()
+    if q.new_search(ticker, startDate, endDate): # Checks if price data between specified start and end date already exists in the database.
+        q.deleteFromPDC(ticker, startDate, endDate) #Deletes data between specified start and end date.
+        load(ticker, startDate, endDate) #Loads data using pyfinance.
+        q.insertIntoTicker(ticker) #insert the ticker into the ticker table. 
+        lst = []
+        readDailyPrices(lst) #Reads daily price data from prices.txt. 
+        q.insertIntoPDC(ticker, lst) #inserts data into pridedailyclose table.
+
+    result = q.getPDCData(ticker, startDate, endDate) #gets data from pricedailyclose table. 
+    header = ['date', 'open', 'high', 'low', 'close', 'adjclose', 'volume']
+    write_to_csv(header, result) #writes the result to a csv file.
+    data = pd.read_csv('prices.csv') 
+    
+    return [
+        column_to_list(data.date),
+        column_to_list(data.open),
+        column_to_list(data.high),
+        column_to_list(data.low),
+        column_to_list(data.close),
+        column_to_list(data.adjclose),
+        column_to_list(data.volume)
+    ]
+
+
