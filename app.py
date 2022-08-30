@@ -32,9 +32,6 @@ def index():
                                 default_ticker = my_ticker,
                                 default_startDate = startDate,
                                 default_endDate = endDate,
-                                tickermsg = "Ticker entered: " + my_ticker,
-                                startdatemsg = "Start date entered: " + startDate,
-                                enddatemsg = "End date entered: " + endDate,
                                 msg = "See the trend below for " + my_ticker + ":", 
 
                                 x_graph1 = data[0],
