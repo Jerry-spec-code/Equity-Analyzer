@@ -71,7 +71,7 @@ def createPDCTable():
         connection = mysql.connector.connect(host = s.host,
         database = s.database, user= s.user, password = s.password)
         cursor = connection.cursor()
-        cursor.execute("create table if not exists `" + s.database + "`.`pricedailyclose` (`tickerid` int not null, `date` datetime not null, `open` decimal(12, 4) null, `high` decimal(12, 4) null, `low` decimal(12, 4) null, `close` decimal(12, 4) null, `adjclose` decimal(12, 4) null, `volume` decimal(12, 4) null, primary key (`tickerid`, `date`))")
+        cursor.execute("create table if not exists `" + s.database + "`.`pricedailyclose` (`tickerid` int not null, `date` datetime not null, `open` decimal(12, 4) null, `high` decimal(12, 4) null, `low` decimal(12, 4) null, `close` decimal(12, 4) null, `adjclose` decimal(12, 4) null, `volume` decimal(20, 2) null, primary key (`tickerid`, `date`))")
 
     except mysql.connector.Error as e:
         print("Error reading data: " , e)
