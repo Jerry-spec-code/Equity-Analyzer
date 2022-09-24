@@ -16,8 +16,6 @@ A Flask web application that saves and updates real-time equity prices for diffe
 4. On each graph, the 20-day and 50-day weighted moving averages are shown. 
 
 ## Screenshots of Project
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/182038425-87ce87cf-b79f-4228-919b-03ea7462a7f1.png">
-<img width="1439" alt="image" src="https://user-images.githubusercontent.com/78711575/182038436-f4752b05-3107-4e2f-8faa-8881f9398668.png">
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/176934431-46e918a9-3459-411c-8d38-c9573f6e2bc2.png">
 <img width="1434" alt="image" src="https://user-images.githubusercontent.com/78711575/176934462-59839bdf-77dc-468e-8298-fb50986fddca.png">
 <img width="1437" alt="image" src="https://user-images.githubusercontent.com/78711575/176934489-cb5ca56d-382b-4c6e-90f5-7189593e4ed2.png">
