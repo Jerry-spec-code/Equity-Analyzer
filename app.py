@@ -1,12 +1,29 @@
 from tracemalloc import start
 from turtle import st
 from flask import Flask, render_template, request, escape
+from flask_cors import CORS
 import loadPrices as lp
 import datetime 
 import trend as tr
+import service as s
 
 app = Flask(__name__)
+CORS(app)
 
+# Need to setup frontend to run 
+@app.route('/api')
+def getAllData():
+    try: 
+        inputData = request.json
+        my_ticker = inputData["ticker"]
+        startDate = inputData["startDate"]
+        endDate = inputData["endDate"]
+        data = lp.getPriceData(my_ticker, startDate, endDate)
+        return s.interpretAllData(data)
+    except Exception as e:
+        return {"status": "Error: " + e}
+
+# Runs on localhost:5000
 @app.route('/')
 def index():
     if 'get_data' in request.args: #If the button was clicked

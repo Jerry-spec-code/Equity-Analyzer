@@ -4,7 +4,6 @@ import pandas as pd
 import yfinance as yf
 from yahoofinancials import YahooFinancials
 import queries as q 
-import databaseBuild as db
 import csv
 
 def load(ticker, startDate, endDate): #Downloads stock data and outputs it to a text file. 

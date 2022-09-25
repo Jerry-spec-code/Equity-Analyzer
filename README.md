@@ -29,6 +29,8 @@ A Flask web application that saves and updates real-time equity prices for diffe
 
 ### Flask Server Setup 
 
+Perform the following steps from the root directory
+
 ```sh
 python3 -m venv venv (Set up the virtual environment)
 . venv/bin/activate  (Activate the virtual environment)
@@ -59,6 +61,9 @@ npm start
 ```
 
 This will run the application on port 3000. Open http://localhost:3000 to view it in your browser.
+
+Note: To run the app without the Frontend React setup, perform the steps in the Server Flask Setup, then 
+Open http://localhost:5000 to view the server side version of the app in your browser.
 
 ##  Frontend Environment variables 
 
