@@ -29,27 +29,3 @@ def linearMovingAverage(dataSet, periods):
         ls.append(curMean)
 
     return ls
-
-# # Computes the mean of the dataset
-# def mean(dataSet):
-#     sum = 0
-#     for num in dataSet:
-#         sum += num
-
-#     return sum / len(dataSet)
-
-# # populates an empty list with num a specified number of times
-# def populateEmptyList(num, size):
-#     ls = []
-#     for i in range(0, size):
-#         ls.append(num)
-    
-#     return ls 
-    
-# # populates a sequential list incrimenting by factor with size number of elements   
-# def populateSequentialList(size, factor):
-#     ls = []
-#     for i in range(0, size):
-#         ls.append(i * factor)
-    
-#     return ls

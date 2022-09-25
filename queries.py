@@ -108,9 +108,25 @@ def getPDCData(my_ticker, startDate, endDate): #Gets data from pricedailyclose t
             print("Data retrieved from price daily close table")
             return records
 
+def insertIntoSearchHistory(my_ticker, startDate, endDate):
+    try: 
+        connection = mysql.connector.connect(host = host, 
+        database = database, user = user, password = password)
+        cursor = connection.cursor()
+        sql_insert_Query = "insert into searchhistory (ticker, startdate, enddate) values (%s, %s, %s)"
+        cursor.execute(sql_insert_Query, (my_ticker, startDate, endDate))
+        connection.commit()
+
+    except mysql.connector.Error as e:
+        print("Error reading data: " , e)
+    
+    finally:
+        if connection.is_connected(): 
+            connection.close()
+            cursor.close()
+            print("Data inserted into search history table")
+
 # Checks if price data between specified start and end date already exists.
-# If it exists, return false. 
-# Otherwise, insert (ticker, startDate, endDate) into the new_search database, and return true. 
 def new_search(my_ticker, startDate, endDate):
     try: 
         connection = mysql.connector.connect(host = host, 
@@ -119,11 +135,6 @@ def new_search(my_ticker, startDate, endDate):
         sql_select_Query = "select count(*) from searchhistory where ticker = (%s) and startdate <= (%s) and enddate >= (%s)"
         cursor.execute(sql_select_Query, (my_ticker, startDate, endDate))
         records = cursor.fetchall()
-
-        if records[0][0] == 0: #If this is a new entry. 
-            sql_insert_Query = "insert into searchhistory (ticker, startdate, enddate) values (%s, %s, %s)"
-            cursor.execute(sql_insert_Query, (my_ticker, startDate, endDate))
-            connection.commit()
     
     except mysql.connector.Error as e:
         print("Error reading data: " , e)
@@ -133,6 +144,4 @@ def new_search(my_ticker, startDate, endDate):
             connection.close()
             cursor.close()
             print("Data read from search history table")
-            if records[0][0] == 0:
-                return True
-            return False
+            return records[0][0] == 0

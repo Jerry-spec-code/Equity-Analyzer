@@ -1,134 +1,58 @@
 import mysql.connector
-
 import serverInfo as s 
 
-def createDatabase():
+def executeQuery(query, errorMsg="Error reading data: ", successMsg="Query succeeded", databaseExists=False):
     try:
-        connection = mysql.connector.connect(host = s.host,
-        user= s.user, password = s.password)
+        connection = ""
+        if databaseExists:
+            connection = mysql.connector.connect(host = s.host,
+            database = s.database, user= s.user, password = s.password)            
+        else:
+            connection = mysql.connector.connect(host = s.host,
+            user= s.user, password = s.password)
         cursor = connection.cursor()
-        cursor.execute("create database if not exists " + s.database)
+        cursor.execute(query)
 
     except mysql.connector.Error as e:
-        print("Error reading data: " , e)
+        print(errorMsg, e)
 
     finally:
         if connection.is_connected():
             connection.close()
             cursor.close()
-            print("Database created")
+            print(successMsg) 
+
+def createDatabase():
+    query = "create database if not exists " + s.database
+    executeQuery(query, errorMsg="Error creating database: ", successMsg="Database created", databaseExists=False)
 
 def dropDatabase():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("drop database if exists " + s.database)
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("Database dropped")
+    query = "drop database if not exists " + s.database
+    executeQuery(query, errorMsg="Error dropping database: ", successMsg="Database dropped", databaseExists=False)
 
 def createTickerTable():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        database = s.database, user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("create table if not exists `" + s.database + "`.`ticker` (`tickerid` int not null auto_increment, `ticker` varchar(45) not null, primary key (`tickerid`))")
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("Ticker table created")
+    query = "create table if not exists `" + s.database + "`.`ticker` (`tickerid` int not null auto_increment, `ticker` varchar(45) not null, primary key (`tickerid`))"
+    executeQuery(query, errorMsg="Error creating ticker table: ", successMsg="Ticker table created", databaseExists=True)
 
 def dropTickerTable():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        database = s.database, user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("drop table if exists `ticker`")
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("Ticker table dropped")
+    query = "drop table if not exists `" + s.database + "`.`ticker`"
+    executeQuery(query, errorMsg="Error dropping ticker table: ", successMsg="Ticker table dropped", databaseExists=True)
 
 def createPDCTable():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        database = s.database, user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("create table if not exists `" + s.database + "`.`pricedailyclose` (`tickerid` int not null, `date` datetime not null, `open` decimal(12, 4) null, `high` decimal(12, 4) null, `low` decimal(12, 4) null, `close` decimal(12, 4) null, `adjclose` decimal(12, 4) null, `volume` decimal(20, 2) null, primary key (`tickerid`, `date`))")
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("price daily close table created")
+    query = "create table if not exists `" + s.database + "`.`pricedailyclose` (`tickerid` int not null, `date` datetime not null, `open` decimal(12, 4) null, `high` decimal(12, 4) null, `low` decimal(12, 4) null, `close` decimal(12, 4) null, `adjclose` decimal(12, 4) null, `volume` decimal(20, 2) null, primary key (`tickerid`, `date`))"
+    executeQuery(query, errorMsg="Error creating price daily close table: ", successMsg="Price daily close table created", databaseExists=True)
 
 def dropPDCTable():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        database = s.database, user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("drop table if exists `pricedailyclose`")
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("price daily close table dropped")
+    query = "drop table if exists " + s.database + "`.`pricedailyclose`"
+    executeQuery(query, errorMsg="Error dropping price daily close table: ", successMsg="Price daily close table dropped", databaseExists=True)
 
 def createSearchHistoryTable():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        database = s.database, user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("create table if not exists `" + s.database + "`.`searchhistory` (`ticker` varchar(45) not null, `startdate` datetime not null, `enddate` datetime not null)")
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("search history table created")
+    query = "create table if not exists `" + s.database + "`.`searchhistory` (`ticker` varchar(45) not null, `startdate` datetime not null, `enddate` datetime not null)"
+    executeQuery(query, errorMsg="Error creating search history table: ", successMsg="Search history table created", databaseExists=True)
 
 def dropSearchHistoryTable():
-    try:
-        connection = mysql.connector.connect(host = s.host,
-        database = s.database, user= s.user, password = s.password)
-        cursor = connection.cursor()
-        cursor.execute("drop table if exists `search history`")
-
-    except mysql.connector.Error as e:
-        print("Error reading data: " , e)
-
-    finally:
-        if connection.is_connected():
-            connection.close()
-            cursor.close()
-            print("search history table dropped")
+    query = "drop table if exists `" + s.database + "`.`searchhistory`"
+    executeQuery(query, errorMsg="Error dropping search history table: ", successMsg="Search history table dropped", databaseExists=True)
 
 def buildDB():
     createDatabase()
@@ -136,3 +60,4 @@ def buildDB():
     createTickerTable()
     createPDCTable()
 
+buildDB()
