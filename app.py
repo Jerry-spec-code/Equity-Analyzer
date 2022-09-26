@@ -5,13 +5,13 @@ from flask_cors import CORS
 import loadPrices as lp
 import datetime 
 import trend as tr
-import service as s
+import format as f
 
 app = Flask(__name__)
 CORS(app)
 
 # Need to setup frontend to run 
-@app.route('/api')
+@app.route('/api', methods=['POST'])
 def getAllData():
     try: 
         inputData = request.json
@@ -19,9 +19,9 @@ def getAllData():
         startDate = inputData["startDate"]
         endDate = inputData["endDate"]
         data = lp.getPriceData(my_ticker, startDate, endDate)
-        return s.interpretAllData(data)
+        return f.interpretAllData(data)
     except Exception as e:
-        return {"status": "Error: " + e}
+        return {"status": "Error: " + str(e)}
 
 # Runs on localhost:5000
 @app.route('/')

@@ -22,8 +22,9 @@ const PageHeader = ({openDrawer, setOpenDrawer}  : Props) => {
             color="primary"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={() => setOpenDrawer(!openDrawer)}
           >
-            <MenuIcon onClick={() => setOpenDrawer(!openDrawer)}/>
+            <MenuIcon />
           </IconButton>
           <Typography variant="h5" component="div" color="primary" sx={{ flexGrow: 1 }}>
             Stock Market Trend Analyzer

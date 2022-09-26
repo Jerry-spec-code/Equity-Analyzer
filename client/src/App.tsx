@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <PageHeader openDrawer={openDrawer} setOpenDrawer={setOpenDrawer}/>
       <Sidebar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} setData={setData}/>
-      <Graph />
+      <Graph data={data}/>
     </div>
   );
 }

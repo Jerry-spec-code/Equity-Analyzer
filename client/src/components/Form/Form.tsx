@@ -15,7 +15,7 @@ const Form = ({setData} : Props) => {
 
     const [clicked, setClicked] = useState(false);
     const [ticker, setTicker] = useState("");
-    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('2022-08-18T21:11:54'));
+    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('2022-01-01T21:11:54'));
     const [endDate, setEndDate] = useState<Dayjs | null>(dayjs('2022-08-18T21:11:54'),);
 
     const update = (value : string, setState : (args : string) => void) => {
@@ -34,8 +34,13 @@ const Form = ({setData} : Props) => {
                 await fetch(ROUTES.getAllData, requestOptions)
                     .then((res) => res.json())
                     .then((data) => {
-                        setData(data);
                         console.log(data);
+                        if (data.status === "success") {
+                            setData(data);
+                        }
+                        else {
+                            alert("Failed to retrieve data: " + data.status);
+                        }
                     })
             }
             fetchData();
