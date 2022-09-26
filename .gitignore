@@ -1,3 +1,4 @@
 venv
-serverInfo.py
-mockServerInfo.py
+.env
+prices.csv
+prices.txt

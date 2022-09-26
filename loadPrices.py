@@ -3,8 +3,7 @@ from tkinter import E
 import pandas as pd
 import yfinance as yf
 from yahoofinancials import YahooFinancials
-import SQLQueries as q 
-import databaseBuild as db
+import queries as q 
 import csv
 
 def load(ticker, startDate, endDate): #Downloads stock data and outputs it to a text file. 
@@ -37,7 +36,6 @@ def column_to_list(data):
     return [row for row in data]
 
 def getPriceData(ticker, startDate, endDate):
-    db.buildDB()
     if q.new_search(ticker, startDate, endDate): # Checks if price data between specified start and end date already exists in the database.
         q.deleteFromPDC(ticker, startDate, endDate) #Deletes data between specified start and end date.
         load(ticker, startDate, endDate) #Loads data using pyfinance.
@@ -45,12 +43,13 @@ def getPriceData(ticker, startDate, endDate):
         lst = []
         readDailyPrices(lst) #Reads daily price data from prices.txt. 
         q.insertIntoPDC(ticker, lst) #inserts data into pridedailyclose table.
-
-    result = q.getPDCData(ticker, startDate, endDate) #gets data from pricedailyclose table. 
+        result = q.getPDCData(ticker, startDate, endDate) #gets data from pricedailyclose table.
+        q.insertIntoSearchHistory(ticker, startDate, endDate) 
+    else:
+        result = q.getPDCData(ticker, startDate, endDate) #gets data from pricedailyclose table.
     header = ['date', 'open', 'high', 'low', 'close', 'adjclose', 'volume']
     write_to_csv(header, result) #writes the result to a csv file.
     data = pd.read_csv('prices.csv') 
-    
     return [
         column_to_list(data.date),
         column_to_list(data.open),

@@ -2,3 +2,4 @@ Flask==2.0.2
 yahoofinancials==1.6
 yfinance==0.1.70
 mysql-connector-python==8.0.29
+python-dotenv==0.21.0

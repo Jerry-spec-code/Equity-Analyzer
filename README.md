@@ -4,10 +4,12 @@ A Flask web application that saves and updates real-time equity prices for diffe
 ## Languages/Tools/Frameworks used: 
 1. Python
 2. SQL
-3. HTML
-4. Flask
-5. Chart.js
+3. TypeScript
+4. HTML
+5. Flask
 6. MySQL
+7. React
+8. Chart.js
 
 ## Key features: 
 1. The user specifies a ticker as well as a start and end date. 
@@ -24,19 +26,48 @@ A Flask web application that saves and updates real-time equity prices for diffe
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/176934536-b1e34d5c-4162-411d-992e-d37bc3550d19.png">
 <img width="1437" alt="image" src="https://user-images.githubusercontent.com/78711575/176934557-3a5a956b-3e49-4793-b35f-884be3d415d3.png">
 
+### Flask Server Setup 
 
-### Installing required pip packages: Run the commands below 
+Perform the following steps from the root directory
 
 ```sh
 python3 -m venv venv (Set up the virtual environment)
 . venv/bin/activate  (Activate the virtual environment)
-pip3 install -r requirements.txt (install the required packages)
+pip3 install -r requirements.txt (Install the required packages)
+python3 databaseBuild.py (Sets up the database schema)
+python3 app.py
 ```
 
-### How to run this project?  
-1. Create a new file `serverInfo.py` in the root directory. 
-2. Update the credentials to match the database credentials to store the data. See `exampleServerInfo.py` for database variables 
-3. In the project directory, run the following:<br/><br/>
-``` python3 app.py ```<br/>
+This will run the server on port 5000
 
-Open http://127.0.0.1:5000/ to view the app in your browser.
+##  Backend Environment variables 
+
+| Variable    | Description                                 |
+| ----------- | ------------------------------------------- |
+| PYTHON_ENV  | `development` or `production`               |
+| DB_HOST     | Host address of database                    |
+| DB_DATABASE | Database name                               |
+| DB_USER     | Username credential                         |
+| DB_PASSWORD | Password credentials                        |
+
+Note: Backend Environment variables can be supplied via a `.env` file in the root directory. See  `./example.env` for an example 
+
+### Frontend React Setup
+```sh
+cd ./client
+npm install
+npm start
+```
+
+This will run the application on port 3000. Open http://localhost:3000 to view it in your browser.
+
+Note: To run the app without the Frontend React setup, perform the steps in the Server Flask Setup, then 
+Open http://localhost:5000 to view the server side version of the app in your browser.
+
+##  Frontend Environment variables 
+
+| Variable    | Description                                 |
+| ----------- | ------------------------------------------- |
+| NODE_ENV    | `development`                               |
+
+Note: Frontend Environment variables can be supplied via a `.env` file in the client directory. See  `./client/example.env` for an example 
