@@ -14,12 +14,12 @@
     </div>
     <br/>
         <form action="" style="text-align: center;">
-            <label style="font-size: 15px;" for="ticker">Enter a ticker:</label><br>
-            <input style="width: 125px; height: 20px;" type="text" id="ticker" name="ticker" placeholder="tsla" value= {{ default_ticker }}><br><br>
-            <label style="font-size: 15px;" for="startDate">Enter a start date (yyyy-mm-dd):</label><br>
-            <input style="width: 125px; height: 20px;" type="date" id="startDate" name="startDate" placeholder = "2021-01-01" value= {{ default_startDate }} max="9999-12-31"><br><br>
-            <label style="font-size: 15px;" for="endDate">Enter an end date (yyyy-mm-dd):</label><br>
-            <input style="width: 125px; height: 20px;" type="date" id="endDate" name="endDate" placeholder = "2022-01-01" value= {{ default_endDate }} max="9999-12-31"><br><br>
+            <label style="font-size: 15px;" for="ticker">Enter a ticker:</label>
+            <input style="width: 125px; height: 20px;" type="text" id="ticker" name="ticker" placeholder="tsla" value= {{ default_ticker }}>
+            <label style="font-size: 15px;" for="startDate">Enter a start date (yyyy-mm-dd):</label>
+            <input style="width: 125px; height: 20px;" type="date" id="startDate" name="startDate" placeholder = "2021-01-01" value= {{ default_startDate }} max="9999-12-31">
+            <label style="font-size: 15px;" for="endDate">Enter an end date (yyyy-mm-dd):</label>
+            <input style="width: 125px; height: 20px;" type="date" id="endDate" name="endDate" placeholder = "2022-01-01" value= {{ default_endDate }} max="9999-12-31"><br/><br/>
             <input style="background: black;
                         color: white;
                         border: none;
@@ -30,17 +30,47 @@
                     type="submit" name = "get_data" value="Get Data!">
           </form>
         <h3 style="text-align: center;">
-            {{ tickermsg }}
-        </h3>
-        <h3 style="text-align: center;">
-            {{ startdatemsg }}
-        </h3>
-        <h3 style="text-align: center;">
-            {{ enddatemsg }}
-        </h3>
-        <h3 style="text-align: center;">
             {{ msg }}
         </h3>
+        <p>
+            <canvas id="Graph4", width="1000", height="500"></canvas>
+            <script>
+                var ctx = document.getElementById("Graph4").getContext("2d");
+                var my_chart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: {{ x_graph4 | safe }},
+                        datasets: [
+                            {
+                                label: "Daily Close Price Data",
+                                data: {{ y1_graph4 | safe }},
+                                fill: false, 
+                                borderColor: "chartreuse",
+                                lineTension: 0.1 
+                            },
+                            {
+                                label: "20 Day Moving Average",
+                                data: {{ y2_graph4 | safe }},
+                                fill: false, 
+                                borderColor: "red",
+                                lineTension: 0.1 
+                            },
+                            {
+                                label: "50 Day Moving Average",
+                                data: {{ y3_graph4 | safe }},
+                                fill: false, 
+                                borderColor: "blue",
+                                lineTension: 0.1 
+                            }
+                        ]
+                        
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            </script>
+        </p>
         <p>
             <canvas id="Graph1", width="1000", height="500"></canvas>
             <script>
@@ -72,7 +102,7 @@
                                 lineTension: 0.1 
                             }
                         ]
-
+                        
                     },
                     options: {
                         responsive: true
@@ -111,7 +141,7 @@
                                 lineTension: 0.1 
                             }
                         ]
-
+                        
                     },
                     options: {
                         responsive: true 
@@ -150,46 +180,7 @@
                                 lineTension: 0.1 
                             }
                         ]
-
-                    },
-                    options: {
-                        responsive: true
-                    }
-                });
-            </script>
-        </p>
-        <p>
-            <canvas id="Graph4", width="1000", height="500"></canvas>
-            <script>
-                var ctx = document.getElementById("Graph4").getContext("2d");
-                var my_chart = new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: {{ x_graph4 | safe }},
-                        datasets: [
-                            {
-                                label: "Daily Close Price Data",
-                                data: {{ y1_graph4 | safe }},
-                                fill: false, 
-                                borderColor: "chartreuse",
-                                lineTension: 0.1 
-                            },
-                            {
-                                label: "20 Day Moving Average",
-                                data: {{ y2_graph4 | safe }},
-                                fill: false, 
-                                borderColor: "red",
-                                lineTension: 0.1 
-                            },
-                            {
-                                label: "50 Day Moving Average",
-                                data: {{ y3_graph4 | safe }},
-                                fill: false, 
-                                borderColor: "blue",
-                                lineTension: 0.1 
-                            }
-                        ]
-
+                        
                     },
                     options: {
                         responsive: true
@@ -228,7 +219,7 @@
                                 lineTension: 0.1 
                             }
                         ]
-
+                        
                     },
                     options: {
                         responsive: true
@@ -267,7 +258,7 @@
                                 lineTension: 0.1 
                             }
                         ]
-
+                        
                     },
                     options: {
                         responsive: true
@@ -278,7 +269,5 @@
     </div>
 </body>
 </html>
-
-
 
 
