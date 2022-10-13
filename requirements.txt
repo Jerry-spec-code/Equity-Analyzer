@@ -3,3 +3,4 @@ yahoofinancials==1.6
 yfinance==0.1.70
 mysql-connector-python==8.0.29
 python-dotenv==0.21.0
+flask_cors==3.0.10
