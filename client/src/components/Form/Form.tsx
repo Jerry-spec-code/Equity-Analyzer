@@ -9,9 +9,10 @@ import ROUTES from '../../config/api';
 
 type Props = {
     setData : (args : any) => void;
+    setErrorMsg : (args : string) => void;
 }
 
-const Form = ({setData} : Props) => {
+const Form = ({setData, setErrorMsg} : Props) => {
 
     const [clicked, setClicked] = useState(false);
     const [ticker, setTicker] = useState("");
@@ -39,7 +40,7 @@ const Form = ({setData} : Props) => {
                             setData(data);
                         }
                         else {
-                            alert("Failed to retrieve data: " + data.status);
+                            setErrorMsg(data.status);
                         }
                     })
             }

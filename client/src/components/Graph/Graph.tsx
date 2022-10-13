@@ -1,5 +1,6 @@
 import React from 'react';
 import LineChart from '../LineChart/LineChart';
+import Grid from '@mui/material/Grid';
 
 type Props = {
   data : any; 
@@ -43,13 +44,10 @@ const Graph = ({data} : Props) => {
   };
 
   return (
-    <p>
-      <LineChart chartData={stockData("Closing", data["Closing"])} />          
-      {/* {possibleGraphs.map((key : string) => {
-        return (
-          <LineChart chartData={stockData(key, data[key])} />          
-        )
-      })} */}
+    <p>         
+      {possibleGraphs.map((key : string) => {
+          return <Grid><LineChart chartData={stockData(key, data[key])} myTitle={key}/></Grid>            
+      })}
     </p>
   )
 }

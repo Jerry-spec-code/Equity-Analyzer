@@ -9,9 +9,10 @@ type Props = {
     openDrawer : boolean;
     setOpenDrawer : (args : boolean) => void;
     setData : (args : any) => void;
+    setErrorMsg : (args : string) => void;
 }
 
-const Sidebar = ({openDrawer, setOpenDrawer, setData}  : Props) => {
+const Sidebar = ({openDrawer, setOpenDrawer, setData, setErrorMsg}  : Props) => {
     const drawerWidth = "12%";
     return (
     <div> {openDrawer && (
@@ -33,7 +34,7 @@ const Sidebar = ({openDrawer, setOpenDrawer, setData}  : Props) => {
         </IconButton>
         <Divider />
         <br />
-        <Form setData={setData}/>
+        <Form setData={setData} setErrorMsg={setErrorMsg}/>
     </Drawer>
     )}
     </div>

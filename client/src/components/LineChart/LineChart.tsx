@@ -5,22 +5,49 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  Title, 
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Line, getElementAtEvent } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  Title, 
 );
 
 type Props = {
     chartData : any;
+    myTitle : string; 
 }
 
-const LineChart = ({chartData} : Props) => {
-    return <Line data={chartData} options={{maintainAspectRatio : false, responsive : true}} />
+const LineChart = ({chartData, myTitle} : Props) => {
+  const options = {
+      responsive: true, 
+      plugins: {
+        title: {
+            display: true,
+            text: `${myTitle} Price Data`,
+            padding: {
+              top: 10,
+              bottom: 10,
+            },
+            font: {
+              size: 20,
+            }
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
+      },
+    };
+    return <Line data={chartData} options={options}/>
 }
 
 export default LineChart;

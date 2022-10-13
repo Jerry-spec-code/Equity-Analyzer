@@ -26,7 +26,7 @@ const PageHeader = ({openDrawer, setOpenDrawer}  : Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" component="div" color="primary" sx={{ flexGrow: 1 }}>
+          <Typography ml="8%" variant="h5" component="div" color="primary" sx={{ flexGrow: 1 }}>
             Stock Market Trend Analyzer
           </Typography>
         </Toolbar>
