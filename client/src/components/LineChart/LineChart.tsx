@@ -7,7 +7,7 @@ import {
   LineElement,
   Title, 
 } from 'chart.js';
-import { Line, getElementAtEvent } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +24,7 @@ type Props = {
 
 const LineChart = ({chartData, myTitle} : Props) => {
   const options = {
-      responsive: true, 
+      responsive: true,
       plugins: {
         title: {
             display: true,
@@ -37,6 +37,9 @@ const LineChart = ({chartData, myTitle} : Props) => {
               size: 20,
             }
         },
+        legend: {
+          display: true,
+        }, 
         tooltips: {
             mode: 'index',
             intersect: false
@@ -45,6 +48,21 @@ const LineChart = ({chartData, myTitle} : Props) => {
             mode: 'index',
             intersect: false
         },
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Prices',
+            },
+          }]
+        }
       },
     };
     return <Line data={chartData} options={options}/>
