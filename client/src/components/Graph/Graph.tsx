@@ -3,12 +3,13 @@ import LineChart from '../LineChart/LineChart';
 import Grid from '@mui/material/Grid';
 
 type Props = {
+  show : boolean; 
   data : any; 
 }
 
-const Graph = ({data} : Props) => {
+const Graph = ({show, data} : Props) => {
 
-  if (Object.keys(data).length === 0) {
+  if (!show || Object.keys(data).length === 0) {
     return <> </>
   }
 
