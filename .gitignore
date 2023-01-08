@@ -1,4 +1,4 @@
 venv
 .env
-prices.csv
-prices.txt
+*.csv
+*.txt

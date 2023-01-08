@@ -6,23 +6,29 @@ from yahoofinancials import YahooFinancials
 import queries as q 
 import csv
 
+pricesTXT = 'txtPrices.txt'
+pricesCSV = 'csvPrices.csv'
+
 def load(ticker, startDate, endDate): #Downloads stock data and outputs it to a text file. 
     stock_df = yf.download(ticker, 
                             start = startDate, 
                             end = endDate, 
                             progress = False) #Downloads stocks and saves it in the corresponding dataframe.
-    f = open('prices.txt', 'w') #Overrides the current content in the file.
-    f.write(stock_df.to_string(header = True, index = True)) #Writes the dataframe to the prices.txt file. 
+    write_to_txt(pricesTXT, stock_df.to_string(header = True, index = True)) #Writes the dataframe to the prices.txt file. 
+
+def write_to_txt(filename, contents):
+    f = open(filename, 'w')
+    f.write(contents)
     f.close()
 
 def write_to_csv(header, body): #Writes the data to the 'prices.csv' file. 
-    with open('prices.csv', 'w', encoding='UTF8', newline='') as f:
+    with open(pricesCSV, 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         writer.writerows(body)
 
 def readDailyPrices(lst): #Reads the data from prices.txt 
-    with open("prices.txt") as file:
+    with open(pricesTXT) as file:
         for i, line in enumerate(file):
             if i < 2: 
                 continue
@@ -49,7 +55,7 @@ def getPriceData(ticker, startDate, endDate):
         result = q.getPDCData(ticker, startDate, endDate) #gets data from pricedailyclose table.
     header = ['date', 'open', 'high', 'low', 'close', 'adjclose', 'volume']
     write_to_csv(header, result) #writes the result to a csv file.
-    data = pd.read_csv('prices.csv') 
+    data = pd.read_csv(pricesCSV) 
     return [
         column_to_list(data.date),
         column_to_list(data.open),
