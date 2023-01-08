@@ -39,6 +39,7 @@ const Form = ({setData, setErrorMsg} : Props) => {
                     .then((data) => {
                         console.log(data);
                         if (data.status === "success") {
+                            data.ticker = ticker;
                             setData(data);
                             setErrorMsg("");
                         }

@@ -20,15 +20,16 @@ ChartJS.register(
 type Props = {
     chartData : any;
     myTitle : string; 
+    data : any;
 }
 
-const LineChart = ({chartData, myTitle} : Props) => {
+const LineChart = ({chartData, myTitle, data} : Props) => {
   const options = {
       responsive: true,
       plugins: {
         title: {
             display: true,
-            text: `${myTitle} Price Data`,
+            text: `${myTitle} Price Data (${data.ticker})`,
             padding: {
               top: 10,
               bottom: 10,

@@ -9,7 +9,7 @@ type Props = {
 
 const Graph = ({show, data} : Props) => {
 
-  if (!show || Object.keys(data).length === 0) {
+  if (!show || Object.keys(data).length === 0 || data.ticker === undefined) {
     return <> </>
   }
 
@@ -47,7 +47,8 @@ const Graph = ({show, data} : Props) => {
   return (
     <p>         
       {possibleGraphs.map((key : string) => {
-          return <Grid><LineChart chartData={stockData(key, data[key])} myTitle={key}/></Grid>            
+          return <Grid><LineChart chartData={stockData(key, data[key])} 
+          myTitle={key} data={data}/></Grid>            
       })}
     </p>
   )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TextField } from '@mui/material'
+import Typography from '@mui/material/Typography';
 import OptionButton from "../Button/OptionButton"
 import ROUTES from '../../config/api';
 
@@ -8,10 +9,16 @@ type Props = {
     setErrorMsg : (args : string) => void;
 };
 
+interface OptionData {
+    status? : string;
+    callPrice? : number;
+    putPrice? : number;
+};  
+
 const OptionForm = ({show, setErrorMsg} : Props) => {
     
     const [clicked, setClicked] = useState(false);
-    const [data, setData] = useState({});
+    const [data, setData] = useState<OptionData>({});
 
     const [optionPrice, setOptionPrice] = useState("100.0");
     const [strikePrice, setStrikePrice] = useState("100.0");
@@ -20,6 +27,14 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     const [expires, setExpires] = useState("1.0");    // One year until expiry
 
     const defaultWidth = "20%";
+
+    const inputMessages = [
+        ["Underlying price", optionPrice],
+        ["Strike price", strikePrice],
+        ["Risk-free interest rate", interestRate],
+        ["Volatility", volatility],
+        ["Maturity (years)", expires],
+    ];
 
     useEffect(() => {
         if (clicked) {
@@ -62,20 +77,54 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         return <> </>
     }
 
+    const Display = () => {
+        if (Object.keys(data).length === 0) {
+            return <> </>
+        }
+
+        const outputMessages = [
+            ["Call Price", data.callPrice],
+            ["Put Price", data.putPrice],
+        ]
+
+        return (
+        <div>
+            <Typography sx={{ mt: "14px", fontWeight: "bold" }} variant="h6">Input Data:</Typography>
+            <ul style={{ display: "inline-block" }}>
+                {inputMessages.map((input) => {
+                    return <li style={{ textAlign : "left", fontSize: "16px", marginTop : "5px"}}>
+                            {`${input[0]}: ${input[1]}`}
+                        </li>
+                })}
+            </ul>
+            <Typography sx={{fontWeight: "bold" }} variant="h6">Results:</Typography>
+            <ul style={{ display: "inline-block" }}>
+                {outputMessages.map((output) => {
+                    return <li style={{ textAlign : "left", fontSize: "16px", marginTop : "5px"}}>
+                            {`${output[0]}: ${output[1]}`}
+                        </li>
+                })}
+            </ul>
+        </div>
+        )
+    }
+
+    let i = 0;
+
     return (
     <div>
       <br />
-      <TextField variant="outlined" label="Option price" size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setOptionPrice)}></TextField>
-      <TextField variant="outlined" label="Strike price" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
-      <TextField variant="outlined" label="Risk-free interest rate" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRate)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setOptionPrice)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRate)}></TextField>
       <br />
       <br />
-      <TextField variant="outlined" label="Volatility" size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatility)}></TextField>
-      <TextField variant="outlined" label="Years until expiry" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpires)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatility)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpires)}></TextField>
       <br />
       <br />
       <OptionButton setClicked={setClicked}/>
-
+      <Display />
     </div>
   )
 }

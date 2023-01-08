@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <PageHeader openDrawer={openDrawer} setOpenDrawer={setOpenDrawer}/>
-      <Box ml={"40%"} mr={"5%"}>
+      <Box ml={"43%"} mr={"5%"}>
         <Tabs setActiveTab={setActiveTab}/>
       </Box>
       <Sidebar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} setData={setData} setErrorMsg={setErrorMsg}/>
