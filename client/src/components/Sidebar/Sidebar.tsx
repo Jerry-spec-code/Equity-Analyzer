@@ -13,7 +13,7 @@ type Props = {
 }
 
 const Sidebar = ({openDrawer, setOpenDrawer, setData, setErrorMsg}  : Props) => {
-    const drawerWidth = "12%";
+    const drawerWidth = "15%";
     return (
     <div> {openDrawer && (
     <Drawer

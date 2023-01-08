@@ -17,3 +17,6 @@ def formatData(data):
         "20-day-average" : tr.movingAverage(data, 20),
         "50-day-average" : tr.movingAverage(data, 50),
     }
+
+def processDate(date):
+    return date[0:date.find('T')]

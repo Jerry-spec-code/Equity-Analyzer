@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <PageHeader openDrawer={openDrawer} setOpenDrawer={setOpenDrawer}/>
       <Sidebar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} setData={setData} setErrorMsg={setErrorMsg}/>
-      <Box ml={"15%"} mr={"5%"}>
+      <Box ml={"17%"} mr={"5%"}>
         <Error errorMsg={errorMsg}/>
         <Graph data={data}/>
       </Box>

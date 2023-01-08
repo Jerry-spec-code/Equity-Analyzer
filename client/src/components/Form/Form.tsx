@@ -14,10 +14,12 @@ type Props = {
 
 const Form = ({setData, setErrorMsg} : Props) => {
 
+    const today = new Date();
+
     const [clicked, setClicked] = useState(false);
     const [ticker, setTicker] = useState("");
-    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('2022-01-01T21:11:54'));
-    const [endDate, setEndDate] = useState<Dayjs | null>(dayjs('2022-08-18T21:11:54'),);
+    const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('2022-01-01'));
+    const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(today));
 
     const update = (value : string, setState : (args : string) => void) => {
         setState(value);
@@ -38,9 +40,11 @@ const Form = ({setData, setErrorMsg} : Props) => {
                         console.log(data);
                         if (data.status === "success") {
                             setData(data);
+                            setErrorMsg("");
                         }
                         else {
                             setErrorMsg(data.status);
+                            setData({});
                         }
                     })
             }

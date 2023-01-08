@@ -16,8 +16,8 @@ def getAllData():
     try: 
         inputData = request.json
         my_ticker = inputData["ticker"]
-        startDate = inputData["startDate"]
-        endDate = inputData["endDate"]
+        startDate = f.processDate(inputData["startDate"])
+        endDate = f.processDate(inputData["endDate"])
         data = lp.getPriceData(my_ticker, startDate, endDate)
         return f.interpretAllData(data)
     except Exception as e:
