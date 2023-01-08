@@ -65,13 +65,13 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     return (
     <div>
       <br />
-      <TextField variant="outlined" label="Option price" size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
+      <TextField variant="outlined" label="Option price" size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setOptionPrice)}></TextField>
       <TextField variant="outlined" label="Strike price" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
-      <TextField variant="outlined" label="Risk-free interest rate" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
+      <TextField variant="outlined" label="Risk-free interest rate" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRate)}></TextField>
       <br />
       <br />
-      <TextField variant="outlined" label="Volatility" size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
-      <TextField variant="outlined" label="Years until expiry" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
+      <TextField variant="outlined" label="Volatility" size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatility)}></TextField>
+      <TextField variant="outlined" label="Years until expiry" size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpires)}></TextField>
       <br />
       <br />
       <OptionButton setClicked={setClicked}/>

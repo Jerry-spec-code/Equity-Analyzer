@@ -22,6 +22,18 @@ def getAllData():
         return f.interpretAllData(data)
     except Exception as e:
         return {"status": "Error: " + str(e)}
+ 
+@app.route('/api/options', methods=['POST'])
+def getOptionsData():
+    try: 
+        inputData = request.json
+        my_ticker = inputData["ticker"]
+        startDate = f.processDate(inputData["startDate"])
+        endDate = f.processDate(inputData["endDate"])
+        data = lp.getPriceData(my_ticker, startDate, endDate)
+        return f.interpretAllData(data)
+    except Exception as e:
+        return {"status": "Error: " + str(e)}
 
 # Runs on localhost:5000
 @app.route('/')
