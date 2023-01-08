@@ -26,6 +26,12 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     const [volatility, setVolatility] = useState("0.20"); // Volatility of the underlying (20%)
     const [expires, setExpires] = useState("1.0");    // One year until expiry
 
+    const [optionPriceTemp, setOptionPriceTemp] = useState("100.0");
+    const [strikePriceTemp, setStrikePriceTemp] = useState("100.0");
+    const [interestRateTemp, setInterestRateTemp] = useState("0.05"); // Risk-free rate (5%)
+    const [volatilityTemp, setVolatilityTemp] = useState("0.20"); // Volatility of the underlying (20%)
+    const [expiresTemp, setExpiresTemp] = useState("1.0");    // One year until expiry
+
     const defaultWidth = "20%";
 
     const inputMessages = [
@@ -36,9 +42,16 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         ["Maturity (years)", expires],
     ];
 
+    const updateStates = () => {
+        setOptionPrice(optionPriceTemp);
+        setStrikePrice(strikePriceTemp);
+        setInterestRate(interestRateTemp);
+        setVolatility(volatilityTemp);
+        setExpires(expiresTemp);
+    }
+
     useEffect(() => {
         if (clicked) {
-            setClicked(false);
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
@@ -63,6 +76,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
                             setErrorMsg(data.status);
                             setData({});
                         }
+                        setClicked(false);
                     })
             }
             fetchData();
@@ -114,16 +128,16 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     return (
     <div>
       <br />
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setOptionPrice)}></TextField>
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePrice)}></TextField>
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRate)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setOptionPriceTemp)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePriceTemp)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRateTemp)}></TextField>
       <br />
       <br />
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatility)}></TextField>
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpires)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatilityTemp)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpiresTemp)}></TextField>
       <br />
       <br />
-      <OptionButton setClicked={setClicked}/>
+      <OptionButton clicked={clicked} setClicked={setClicked} updateStates={updateStates}/>
       <Display />
     </div>
   )
