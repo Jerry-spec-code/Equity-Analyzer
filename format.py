@@ -20,3 +20,17 @@ def formatData(data):
 
 def processDate(date):
     return date[0:date.find('T')]
+
+def stringToFloat(string):
+    try:
+        res = float(string)
+        return res
+    except:
+        raise Exception("Invalid input")
+
+def interpretOptionsData(call, put):
+    return {
+        "status" : "success",
+        "callPrice" : call,
+        "putPrice" : put,
+    }

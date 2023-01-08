@@ -6,6 +6,7 @@ import loadPrices as lp
 import datetime 
 import trend as tr
 import format as f
+import option as op
 
 app = Flask(__name__)
 CORS(app)
@@ -27,11 +28,14 @@ def getAllData():
 def getOptionsData():
     try: 
         inputData = request.json
-        my_ticker = inputData["ticker"]
-        startDate = f.processDate(inputData["startDate"])
-        endDate = f.processDate(inputData["endDate"])
-        data = lp.getPriceData(my_ticker, startDate, endDate)
-        return f.interpretAllData(data)
+        optionPrice = f.stringToFloat(inputData["optionPrice"])
+        strikePrice = f.stringToFloat(inputData["strikePrice"])
+        interestRate = f.stringToFloat(inputData["interestRate"]) # Risk-free rate 
+        volatility = f.stringToFloat(inputData["volatility"]) # Volatility of the underlying (20%)
+        expires = f.stringToFloat(inputData["expires"]) # Years until expiry
+        option = op.Option(optionPrice, strikePrice, interestRate, volatility, expires)
+        callPrice, putPrice = option.getOptionsData()
+        return f.interpretOptionsData(callPrice, putPrice)
     except Exception as e:
         return {"status": "Error: " + str(e)}
 
