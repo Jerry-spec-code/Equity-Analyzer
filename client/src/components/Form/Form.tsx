@@ -27,7 +27,6 @@ const Form = ({setData, setErrorMsg} : Props) => {
 
     useEffect(() => {
         if (clicked) {
-            setClicked(false);
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
@@ -47,6 +46,7 @@ const Form = ({setData, setErrorMsg} : Props) => {
                             setErrorMsg(data.status);
                             setData({});
                         }
+                        setClicked(false);
                     })
             }
             fetchData();
@@ -75,7 +75,7 @@ const Form = ({setData, setErrorMsg} : Props) => {
         />
         </LocalizationProvider>
         <br /><br />
-        <Button setClicked={setClicked}/>
+        <Button clicked={clicked} setClicked={setClicked}/>
     </div>
     )
 }

@@ -20,13 +20,13 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     const [clicked, setClicked] = useState(false);
     const [data, setData] = useState<OptionData>({});
 
-    const [optionPrice, setOptionPrice] = useState("100.0");
+    const [underlyingPrice, setUnderlyingPrice] = useState("100.0");
     const [strikePrice, setStrikePrice] = useState("100.0");
     const [interestRate, setInterestRate] = useState("0.05"); // Risk-free rate (5%)
     const [volatility, setVolatility] = useState("0.20"); // Volatility of the underlying (20%)
     const [expires, setExpires] = useState("1.0");    // One year until expiry
 
-    const [optionPriceTemp, setOptionPriceTemp] = useState("100.0");
+    const [underlyingPriceTemp, setUnderlyingPriceTemp] = useState("100.0");
     const [strikePriceTemp, setStrikePriceTemp] = useState("100.0");
     const [interestRateTemp, setInterestRateTemp] = useState("0.05"); // Risk-free rate (5%)
     const [volatilityTemp, setVolatilityTemp] = useState("0.20"); // Volatility of the underlying (20%)
@@ -35,7 +35,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     const defaultWidth = "20%";
 
     const inputMessages = [
-        ["Underlying price", optionPrice],
+        ["Underlying price", underlyingPrice],
         ["Strike price", strikePrice],
         ["Risk-free interest rate", interestRate],
         ["Volatility", volatility],
@@ -43,7 +43,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     ];
 
     const updateStates = () => {
-        setOptionPrice(optionPriceTemp);
+        setUnderlyingPrice(underlyingPriceTemp);
         setStrikePrice(strikePriceTemp);
         setInterestRate(interestRateTemp);
         setVolatility(volatilityTemp);
@@ -56,7 +56,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
                 body: JSON.stringify({
-                    optionPrice: optionPrice, 
+                    underlyingPrice: underlyingPrice, 
                     strikePrice: strikePrice, 
                     interestRate: interestRate,
                     volatility: volatility,
@@ -128,7 +128,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     return (
     <div>
       <br />
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setOptionPriceTemp)}></TextField>
+      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setUnderlyingPriceTemp)}></TextField>
       <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePriceTemp)}></TextField>
       <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRateTemp)}></TextField>
       <br />

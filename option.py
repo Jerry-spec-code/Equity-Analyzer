@@ -2,8 +2,8 @@ import random
 import math
 
 class Option:
-    def __init__(self, optionPrice, strikePrice, interestRate, volatility, expires):
-        self.S = optionPrice
+    def __init__(self, underlyingPrice, strikePrice, interestRate, volatility, expires):
+        self.S = underlyingPrice
         self.K = strikePrice
         self.r = interestRate
         self.v = volatility

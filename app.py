@@ -28,12 +28,12 @@ def getAllData():
 def getOptionsData():
     try: 
         inputData = request.json
-        optionPrice = f.stringToFloat(inputData["optionPrice"])
+        underlyingPrice = f.stringToFloat(inputData["underlyingPrice"])
         strikePrice = f.stringToFloat(inputData["strikePrice"])
         interestRate = f.stringToFloat(inputData["interestRate"]) # Risk-free rate 
         volatility = f.stringToFloat(inputData["volatility"]) # Volatility of the underlying (20%)
         expires = f.stringToFloat(inputData["expires"]) # Years until expiry
-        option = op.Option(optionPrice, strikePrice, interestRate, volatility, expires)
+        option = op.Option(underlyingPrice, strikePrice, interestRate, volatility, expires)
         callPrice, putPrice = option.getOptionsData()
         return f.interpretOptionsData(callPrice, putPrice)
     except Exception as e:
