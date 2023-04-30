@@ -1,4 +1,4 @@
-# Stock-Market-Trend-Analyzer
+# Equity-Analyzer
 A Flask web application that saves and updates real-time equity prices for different companies in a MySQL database and graphs important statistical trends using Chart.js.
 
 ## Languages/Tools/Frameworks used: 
