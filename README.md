@@ -1,5 +1,5 @@
 # Equity-Analyzer
-A Flask web application that saves and updates real-time equity prices for different companies in a MySQL database and graphs important statistical trends using Chart.js.
+A Flask web application that tracks real-time equity prices for different companies in a MySQL database, graphs important statistical trends using React/Chart.js, integrated with a Monte Carlo option pricing calculator.
 
 ## Languages/Tools/Frameworks used: 
 1. Python
