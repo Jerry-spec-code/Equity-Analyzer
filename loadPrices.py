@@ -17,9 +17,8 @@ def load(ticker, startDate, endDate): #Downloads stock data and outputs it to a 
     write_to_txt(pricesTXT, stock_df.to_string(header = True, index = True)) #Writes the dataframe to the prices.txt file. 
 
 def write_to_txt(filename, contents):
-    f = open(filename, 'w')
-    f.write(contents)
-    f.close()
+    with open(filename, 'w') as f:
+        f.write(contents)
 
 def write_to_csv(header, body): #Writes the data to the 'prices.csv' file. 
     with open(pricesCSV, 'w', encoding='UTF8', newline='') as f:
