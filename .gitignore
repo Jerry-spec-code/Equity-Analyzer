@@ -2,3 +2,6 @@ venv
 .env
 *.csv
 *.txt
+
+# macOS
+.DS_Store

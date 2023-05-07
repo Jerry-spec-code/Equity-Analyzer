@@ -2,46 +2,46 @@ import random
 import math
 
 class Option:
-    def __init__(self, underlyingPrice, strikePrice, interestRate, volatility, expires):
-        self.S = underlyingPrice
-        self.K = strikePrice
-        self.r = interestRate
+    def __init__(self, underlying_price, strike_price, interest_rate, volatility, expires):
+        self.S = underlying_price
+        self.K = strike_price
+        self.r = interest_rate
         self.v = volatility
         self.T = expires
-        self.numSims = 1000000
+        self.num_sims = 1000000
 
-    def getOptionsData(self):
-        callPrice = self.monteCarloCallOrPutPrice(False)
-        putPrice = self.monteCarloCallOrPutPrice(True)
-        return callPrice, putPrice
+    def get_options_data(self):
+        call_price = self.price(option_type="call")
+        put_price = self.price(option_type="put")
+        return call_price, put_price
 
-    def monteCarloCallOrPutPrice(self, put):
+    def price(self, option_type="call"):
         S_adjust = self.S * math.exp(self.T*(self.r-0.5*self.v*self.v))
         S_cur = 0.0
-        payoffSum = 0.0
+        payoff_sum = 0.0
 
-        for i in range(0, self.numSims):
-            gauss_bm = self.gaussianBoxMuller()
+        for _ in range(self.num_sims):
+            gauss_bm = self.gaussian_box_muller()
             S_cur = S_adjust * math.exp(math.sqrt(self.v * self.v * self.T) * gauss_bm)
             difference = S_cur - self.K
-            if put:
+            if option_type == "put":
                 difference *= -1
-            payoffSum += max(difference, 0.0)
+            payoff_sum += max(difference, 0.0)
         
-        return (payoffSum / self.numSims) * math.exp(-1 * self.r * self.T)
+        return (payoff_sum / self.num_sims) * math.exp(-1 * self.r * self.T)
 
-    def gaussianBoxMuller(self):
+    def gaussian_box_muller(self):
         x = 0.0
         y = 0.0
-        euclidSq = 1.0
+        euclid_sq = 1.0
         # Continue generating two uniform random variables
         # until their coordinates lie within the unit circle 
-        while euclidSq >= 1.0:
-            x = self.getRandomNumber(-1, 1)
-            y = self.getRandomNumber(-1, 1)
-            euclidSq = x * x + y * y
+        while euclid_sq >= 1.0:
+            x = self.get_random_number(-1, 1)
+            y = self.get_random_number(-1, 1)
+            euclid_sq = x * x + y * y
 
-        return x * math.sqrt(-2 * math.log(euclidSq) / euclidSq) 
+        return x * math.sqrt(-2 * math.log(euclid_sq) / euclid_sq) 
 
-    def getRandomNumber(self, lower, higher):
+    def get_random_number(self, lower, higher):
         return random.uniform(lower, higher)

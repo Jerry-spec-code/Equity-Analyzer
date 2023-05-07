@@ -1,11 +1,11 @@
-from connection import getConnection, closeConnectionAndCursor
+from connection import get_connection, close_connection_and_cursor
 
-def deleteFromPDC(my_ticker, start, end): #Deletes data between specified start and end date.
+def delete_PDC(my_ticker, start_date, end_date): #Deletes data between specified start and end date.
     try: 
-        connection = getConnection()
-        sql_delete_Query = "DELETE p FROM pricedailyclose p inner join ticker t on t.tickerid = p.tickerid AND t.ticker = (%s) where p.date between (%s) and (%s)"
+        connection = get_connection()
+        sql_delete_query = "DELETE p FROM pricedailyclose p inner join ticker t on t.tickerid = p.tickerid AND t.ticker = (%s) where p.date between (%s) and (%s)"
         cursor = connection.cursor()
-        cursor.execute(sql_delete_Query, (my_ticker, start, end))
+        cursor.execute(sql_delete_query, (my_ticker, start_date, end_date))
         connection.commit()
     
     except Exception as e:
@@ -13,37 +13,37 @@ def deleteFromPDC(my_ticker, start, end): #Deletes data between specified start 
 
     finally:
         message = "Data deleted from price daily close table"
-        closeConnectionAndCursor(connection, cursor, message)
+        close_connection_and_cursor(connection, cursor, message)
 
-def insertIntoPDC(my_ticker, lst): ##inserts data into price daily close table 
+def insert_PDC(my_ticker, lst): #inserts data into price daily close table 
     try: 
-        connection = getConnection()
+        connection = get_connection()
         cursor = connection.cursor()
-        sql_tickerID_Query = "select tickerid from ticker where ticker = (%s)"
-        cursor.execute(sql_tickerID_Query, (my_ticker, ))
+        sql_select_query = "select tickerid from ticker where ticker = (%s)"
+        cursor.execute(sql_select_query, (my_ticker, ))
         records = cursor.fetchall()
         ticker_id = records[0][0]
 
         for PDClst in lst:
             PDClst.insert(0, ticker_id)
             tpl = tuple(PDClst)
-            sql_insert_Query = "insert into pricedailyclose (tickerid, date, open, high, low, close, adjclose, volume) values (%s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql_insert_Query, tpl)
+            sql_insert_query = "insert into pricedailyclose (tickerid, date, open, high, low, close, adjclose, volume) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql_insert_query, tpl)
             connection.commit()
 
     except Exception as e:
         print("Error reading data: " , e)
 
     finally:
-        message = "Data inserted into pricedailyclose table"
-        closeConnectionAndCursor(connection, cursor, message)
+        message = "Data inserted into price daily close table"
+        close_connection_and_cursor(connection, cursor, message)
 
-def deleteFromTicker(my_ticker): #Deletes data from ticker table based on specified ticker. 
+def delete_ticker(my_ticker): #Deletes data from ticker table based on specified ticker. 
     try: 
-        connection = getConnection()
-        sql_delete_Query = "DELETE FROM ticker where ticker = %s"
+        connection = get_connection()
+        sql_delete_query = "DELETE FROM ticker where ticker = %s"
         cursor = connection.cursor()
-        cursor.execute(sql_delete_Query, (my_ticker, ))
+        cursor.execute(sql_delete_query, (my_ticker, ))
         connection.commit()
     
     except Exception as e:
@@ -51,14 +51,14 @@ def deleteFromTicker(my_ticker): #Deletes data from ticker table based on specif
 
     finally:
         message = "Data deleted from ticker table"
-        closeConnectionAndCursor(connection, cursor, message)
+        close_connection_and_cursor(connection, cursor, message)
 
-def insertIntoTicker(my_ticker): #Inserts data from ticker table based on specified ticker. 
+def insert_ticker(my_ticker): #Inserts data from ticker table based on specified ticker. 
     try: 
-        connection = getConnection()
-        sql_insertIntoTicker_Query = "insert into ticker (ticker) select (%s) where not exists (select ticker from ticker where ticker = (%s)) limit 1;"
+        connection = get_connection()
+        sql_insert_query = "insert into ticker (ticker) select (%s) where not exists (select ticker from ticker where ticker = (%s)) limit 1;"
         cursor = connection.cursor() 
-        cursor.execute(sql_insertIntoTicker_Query, (my_ticker, my_ticker))
+        cursor.execute(sql_insert_query, (my_ticker, my_ticker))
         connection.commit()
     
     except Exception as e:
@@ -66,16 +66,16 @@ def insertIntoTicker(my_ticker): #Inserts data from ticker table based on specif
 
     finally:
         message = "Date inserted into ticker table"
-        closeConnectionAndCursor(connection, cursor, message)
+        close_connection_and_cursor(connection, cursor, message)
 
-def getPDCData(my_ticker, startDate, endDate): #Gets data from pricedailyclose table. 
+def get_pdc_data(my_ticker, start_date, end_date): #Gets data from pricedailyclose table. 
     try: 
-        connection = getConnection()
+        connection = get_connection()
         cursor = connection.cursor()
-        sql_select_Query = ("select date, open, high, low, close, adjclose, volume from pricedailyclose p" 
+        sql_select_query = ("select date, open, high, low, close, adjclose, volume from pricedailyclose p" 
                             " inner join ticker t on t.tickerid = p.tickerid" 
                             " AND t.ticker = (%s) where p.date between (%s) and (%s)")
-        cursor.execute(sql_select_Query, (my_ticker, startDate, endDate))
+        cursor.execute(sql_select_query, (my_ticker, start_date, end_date))
         records = cursor.fetchall()
 
     except Exception as e:
@@ -83,15 +83,15 @@ def getPDCData(my_ticker, startDate, endDate): #Gets data from pricedailyclose t
 
     finally:
         message = "Data retrieved from price daily close table"
-        closeConnectionAndCursor(connection, cursor, message)
+        close_connection_and_cursor(connection, cursor, message)
         return records
 
-def insertIntoSearchHistory(my_ticker, startDate, endDate):
+def insert_search_history(my_ticker, start_date, end_date):
     try: 
-        connection = getConnection()
+        connection = get_connection()
         cursor = connection.cursor()
-        sql_insert_Query = "insert into searchhistory (ticker, startdate, enddate) values (%s, %s, %s)"
-        cursor.execute(sql_insert_Query, (my_ticker, startDate, endDate))
+        sql_insert_query = "insert into searchhistory (ticker, startdate, enddate) values (%s, %s, %s)"
+        cursor.execute(sql_insert_query, (my_ticker, start_date, end_date))
         connection.commit()
 
     except Exception as e:
@@ -99,15 +99,15 @@ def insertIntoSearchHistory(my_ticker, startDate, endDate):
     
     finally:
         message = "Data inserted into search history table"
-        closeConnectionAndCursor(connection, cursor, message)
+        close_connection_and_cursor(connection, cursor, message)
 
 # Checks if price data between specified start and end date already exists.
-def new_search(my_ticker, startDate, endDate):
+def queried_before(my_ticker, start_date, end_date):
     try: 
-        connection = getConnection()
+        connection = get_connection()
         cursor = connection.cursor()
-        sql_select_Query = "select count(*) from searchhistory where ticker = (%s) and startdate <= (%s) and enddate >= (%s)"
-        cursor.execute(sql_select_Query, (my_ticker, startDate, endDate))
+        sql_select_query = "select count(*) from searchhistory where ticker = (%s) and startdate <= (%s) and enddate >= (%s)"
+        cursor.execute(sql_select_query, (my_ticker, start_date, end_date))
         records = cursor.fetchall()
     
     except Exception as e:
@@ -115,5 +115,5 @@ def new_search(my_ticker, startDate, endDate):
     
     finally:
         message = "Data read from search history table"
-        closeConnectionAndCursor(connection, cursor, message)
+        close_connection_and_cursor(connection, cursor, message)
         return records[0][0] == 0
