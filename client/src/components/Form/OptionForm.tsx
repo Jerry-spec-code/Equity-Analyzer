@@ -10,15 +10,17 @@ type Props = {
 };
 
 interface OptionData {
-    status? : string;
-    callPrice? : number;
-    putPrice? : number;
+    status : string;
+    monteCarloCallPrice : number;
+    monteCarloPutPrice : number;
+    blackScholesCallPrice : number;
+    blackScholesPutPrice : number;
 };  
 
 const OptionForm = ({show, setErrorMsg} : Props) => {
     
     const [clicked, setClicked] = useState(false);
-    const [data, setData] = useState<OptionData>({});
+    const [data, setData] = useState<OptionData | null>(null);
 
     const [underlyingPrice, setUnderlyingPrice] = useState("100.0");
     const [strikePrice, setStrikePrice] = useState("100.0");
@@ -74,7 +76,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
                         }
                         else {
                             setErrorMsg(data.status);
-                            setData({});
+                            setData(null);
                         }
                         setClicked(false);
                     })
@@ -92,13 +94,15 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     }
 
     const Display = () => {
-        if (Object.keys(data).length === 0) {
+        if (data == null) {
             return <> </>
         }
 
         const outputMessages = [
-            ["Call Price", data.callPrice],
-            ["Put Price", data.putPrice],
+            ["Monte Carlo Call Price", data.monteCarloCallPrice],
+            ["Monte Carlo Put Price", data.monteCarloPutPrice],
+            ["Black Scholes Call Price", data.blackScholesCallPrice],
+            ["Black Scholes Put Price", data.blackScholesPutPrice],
         ]
 
         return (
@@ -128,17 +132,17 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
     return (
     <div>
       <br />
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setUnderlyingPriceTemp)}></TextField>
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePriceTemp)}></TextField>
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRateTemp)}></TextField>
+        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setUnderlyingPriceTemp)}></TextField>
+        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePriceTemp)}></TextField>
+        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRateTemp)}></TextField>
       <br />
       <br />
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatilityTemp)}></TextField>
-      <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpiresTemp)}></TextField>
+        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatilityTemp)}></TextField>
+        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpiresTemp)}></TextField>
       <br />
       <br />
-      <OptionButton clicked={clicked} setClicked={setClicked} updateStates={updateStates}/>
-      <Display />
+        <OptionButton clicked={clicked} setClicked={setClicked} updateStates={updateStates}/>
+        <Display />
     </div>
   )
 }

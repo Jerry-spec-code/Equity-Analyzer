@@ -25,7 +25,7 @@ def get_daily_price_data():
         return {"status": "Error: " + str(e)}
  
 @app.route('/api/options', methods=['POST'])
-def get_options_data():
+def get_option_price_data():
     try: 
         input_data = request.json
         underlying_price = f.string_to_float(input_data["underlyingPrice"])
@@ -34,8 +34,9 @@ def get_options_data():
         volatility = f.string_to_float(input_data["volatility"]) # Volatility of the underlying (20%)
         expires = f.string_to_float(input_data["expires"]) # Years until expiry
         option = op.Option(underlying_price, strike_price, interest_rate, volatility, expires)
-        call_price, put_price = option.get_options_data()
-        return f.interpret_options_data(call_price, put_price)
+        monte_carlo_call_price, monte_carlo_put_price = option.get_monte_carlo_option_prices()
+        black_scholes_call_price, black_scholes_put_price = option.get_black_scholes_option_prices()
+        return f.interpret_options_data(monte_carlo_call_price, monte_carlo_put_price, black_scholes_call_price, black_scholes_put_price)
     except Exception as e:
         return {"status": "Error: " + str(e)}
 

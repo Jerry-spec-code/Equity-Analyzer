@@ -1,5 +1,6 @@
 import random
 import math
+from scipy.stats import norm
 
 class Option:
     def __init__(self, underlying_price, strike_price, interest_rate, volatility, expires):
@@ -10,13 +11,31 @@ class Option:
         self.T = expires
         self.num_sims = 1000000
 
-    def get_options_data(self):
-        call_price = self.price(option_type="call")
-        put_price = self.price(option_type="put")
+    def get_black_scholes_option_prices(self):
+        try:
+            common_value = self.v * math.sqrt(self.T)
+            d1 = (math.log(self.S / self.K) + self.T * (self.r + self.v * self.v / 2)) / common_value
+            d2 = d1 - common_value
+
+            factor_one = self.S
+            factor_two = self.K * math.exp(-1 * self.r * self.T)
+            call_price = factor_one * norm.cdf(d1) - factor_two * norm.cdf(d2)
+            put_price = factor_two * norm.cdf(-1 * d2) - factor_one * norm.cdf(-1 * d1) 
+
+        except:
+            call_price = None
+            put_price = None
+
         return call_price, put_price
 
-    def price(self, option_type="call"):
-        S_adjust = self.S * math.exp(self.T*(self.r-0.5*self.v*self.v))
+    def get_monte_carlo_option_prices(self):
+        call_price = self.monte_carlo_price(option_type="call")
+        put_price = self.monte_carlo_price(option_type="put")
+
+        return call_price, put_price
+
+    def monte_carlo_price(self, option_type="call"):
+        S_adjust = self.S * math.exp(self.T * (self.r - 0.5 * self.v * self.v))
         S_cur = 0.0
         payoff_sum = 0.0
 
