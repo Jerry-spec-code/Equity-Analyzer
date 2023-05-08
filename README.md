@@ -1,11 +1,11 @@
 # Equity-Analyzer
-A Flask web application that tracks real-time equity prices for different companies in a MySQL database, graphs important statistical trends using React/Chart.js, integrated with a Monte Carlo option pricing calculator.
+A Flask web application that tracks real-time equity prices for different companies in a MySQL database, graphs important statistical trends using React/Chart.js, integrated with a Black Scholes and Monte Carlo option pricing calculator.
 
 ## Languages/Tools/Frameworks used: 
 1. Python
 2. SQL
 3. TypeScript
-4. HTML
+4. HTML/CSS
 5. Flask
 6. MySQL
 7. React
@@ -16,20 +16,15 @@ A Flask web application that tracks real-time equity prices for different compan
 2. If the data does not already exist in the database, the daily price data is fetched using yfinance, which is then stored in a MySQL database.  
 3. The program retrieves the data and uses HTML and Chart.js to graph the open, high, low, close, and volume price for the specified period.
 4. On each graph, the 20-day and 50-day weighted moving averages are shown. 
+5. The option pricing calculator outputs the call and put prices from both the Black Scholes model as well as a Monte Carlo simultation given the underlying price, stike price, risk-free interest rate, volatility, and maturity.
 
 ## Screenshots of Project
 
 ### Stock Market Trend Analyzer
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/192111453-06ecfe24-6e93-4d44-8e1e-4b1522afd457.png">
-<img width="1438" alt="image" src="https://user-images.githubusercontent.com/78711575/176934511-3e3b2be6-f803-4e82-82fc-7c2e4de9caa5.png">
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/176934431-46e918a9-3459-411c-8d38-c9573f6e2bc2.png">
-<img width="1434" alt="image" src="https://user-images.githubusercontent.com/78711575/176934462-59839bdf-77dc-468e-8298-fb50986fddca.png">
-<img width="1437" alt="image" src="https://user-images.githubusercontent.com/78711575/176934489-cb5ca56d-382b-4c6e-90f5-7189593e4ed2.png">
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/176934536-b1e34d5c-4162-411d-992e-d37bc3550d19.png">
-<img width="1437" alt="image" src="https://user-images.githubusercontent.com/78711575/176934557-3a5a956b-3e49-4793-b35f-884be3d415d3.png">
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/236712767-0f7ba0b4-3af3-4d72-b527-0ce5c484eccf.png">
 
 ### Option Price Calculator
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/212799435-0eaefc30-6164-4f3e-8dfa-d4f9f2096237.png">
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/236712803-aedd9983-d770-4e21-8a1e-4d9cebc67f81.png">
 
 ### Flask Server Setup 
 
@@ -52,7 +47,7 @@ This will run the server on port 5000
 | PYTHON_ENV  | `development` or `production`               |
 | DB_HOST     | Host address of database                    |
 | DB_DATABASE | Database name                               |
-| DB_USER     | Username credential                         |
+| DB_USER     | Username credentials                        |
 | DB_PASSWORD | Password credentials                        |
 
 Note: Backend Environment variables can be supplied via a `.env` file in the root directory. See  `./example.env` for an example 
