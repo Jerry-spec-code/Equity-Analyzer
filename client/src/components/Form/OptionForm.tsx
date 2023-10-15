@@ -100,40 +100,11 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         if (data == null) {
             return <> </>
         }
-
-        const outputMessages = [
-            ["Monte Carlo Call Price", data.monteCarloCallPrice],
-            ["Monte Carlo Put Price", data.monteCarloPutPrice],
-            ["Black Scholes Call Price", data.blackScholesCallPrice],
-            ["Black Scholes Put Price", data.blackScholesPutPrice],
-        ]
-
-        // return (
-        // <div>
-        //     <Typography sx={{ mt: "14px", fontWeight: "bold" }} variant="h6">Input Data:</Typography>
-        //     <ul style={{ display: "inline-block" }}>
-        //         {fieldConfig.map((field) => {
-        //             return <li style={{ textAlign : "left", fontSize: "16px", marginTop : "5px"}}>
-        //                     {`${field.label}: ${formData[field.name]}`}
-        //                 </li>
-        //         })}
-        //     </ul>
-        //     <Typography sx={{fontWeight: "bold" }} variant="h6">Results:</Typography>
-        //     <ul style={{ display: "inline-block" }}>
-        //         {outputMessages.map((output) => {
-        //             return <li style={{ textAlign : "left", fontSize: "16px", marginTop : "5px"}}>
-        //                     {`${output[0]}: ${output[1]}`}
-        //                 </li>
-        //         })}
-        //     </ul>
-        // </div>
-        // )
+        
         const table : OptionTable[] = [
             {option : "Monte Carlo", call : data.monteCarloCallPrice, put : data.monteCarloPutPrice },
             {option : "Black Scholes", call : data.blackScholesCallPrice, put : data.blackScholesPutPrice },
-            {option : "Black Scholes", call : data.blackScholesCallPrice, put : data.blackScholesPutPrice },
-            {option : "Black Scholes", call : data.blackScholesCallPrice, put : data.blackScholesPutPrice },
-          ];
+        ];
         
           return (
             <TableContainer component={Paper}>
