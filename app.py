@@ -36,7 +36,8 @@ def get_option_price_data():
         option = op.Option(underlying_price, strike_price, interest_rate, volatility, expires)
         monte_carlo_call_price, monte_carlo_put_price = option.get_monte_carlo_option_prices()
         black_scholes_call_price, black_scholes_put_price = option.get_black_scholes_option_prices()
-        return f.interpret_options_data(monte_carlo_call_price, monte_carlo_put_price, black_scholes_call_price, black_scholes_put_price)
+        option_greeks = option.get_option_greeks()
+        return f.interpret_options_data(monte_carlo_call_price, monte_carlo_put_price, black_scholes_call_price, black_scholes_put_price, option_greeks)
     except Exception as e:
         return {"status": "Error: " + str(e)}
 

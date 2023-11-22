@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { TextField } from '@mui/material'
+import React, { useState, useEffect, ChangeEvent } from 'react'
+import { TextField, Grid, inputAdornmentClasses, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material'
 import Typography from '@mui/material/Typography';
 import OptionButton from "../Button/OptionButton"
 import ROUTES from '../../config/api';
@@ -10,60 +10,77 @@ type Props = {
 };
 
 interface OptionData {
-    status : string;
-    monteCarloCallPrice : number;
-    monteCarloPutPrice : number;
-    blackScholesCallPrice : number;
-    blackScholesPutPrice : number;
+    status: string;
+    monteCarloCallPrice: number;
+    monteCarloPutPrice: number;
+    blackScholesCallPrice: number | null;
+    blackScholesPutPrice: number | null;
+    deltaCall: number | null;
+    deltaPut: number | null;
+    gammaCall: number | null;
+    gammaPut: number | null;
+    vegaCall: number | null;
+    vegaPut: number | null;
+    thetaCall: number | null;
+    thetaPut: number | null;
+    rhoCall: number | null;
+    rhoPut: number | null;
 };  
+
+interface OptionTable {
+    option: string;
+    put: number | null;
+    call: number | null;
+};
+
+interface OptionFormInputs {
+    underlyingPrice: string;
+    strikePrice: string;
+    interestRate: string;
+    volatility: string;
+    expires: string;
+};
+
+interface FieldConfig {
+    label: string;
+    name: keyof OptionFormInputs;
+}
 
 const OptionForm = ({show, setErrorMsg} : Props) => {
     
     const [clicked, setClicked] = useState(false);
     const [data, setData] = useState<OptionData | null>(null);
+    const [formData, setFormData] = useState<OptionFormInputs>({
+        underlyingPrice: "100.0",
+        strikePrice: "100.0",
+        interestRate: "0.05", // Risk-free rate (5%)
+        volatility: "0.20", // Volatility of the underlying asset (20%)
+        expires: "1.0", // One year until expiry
+    });
 
-    const [underlyingPrice, setUnderlyingPrice] = useState("100.0");
-    const [strikePrice, setStrikePrice] = useState("100.0");
-    const [interestRate, setInterestRate] = useState("0.05"); // Risk-free rate (5%)
-    const [volatility, setVolatility] = useState("0.20"); // Volatility of the underlying (20%)
-    const [expires, setExpires] = useState("1.0");    // One year until expiry
+    const defaultWidth = "40%";
 
-    const [underlyingPriceTemp, setUnderlyingPriceTemp] = useState("100.0");
-    const [strikePriceTemp, setStrikePriceTemp] = useState("100.0");
-    const [interestRateTemp, setInterestRateTemp] = useState("0.05"); // Risk-free rate (5%)
-    const [volatilityTemp, setVolatilityTemp] = useState("0.20"); // Volatility of the underlying (20%)
-    const [expiresTemp, setExpiresTemp] = useState("1.0");    // One year until expiry
-
-    const defaultWidth = "20%";
-
-    const inputMessages = [
-        ["Underlying price", underlyingPrice],
-        ["Strike price", strikePrice],
-        ["Risk-free interest rate", interestRate],
-        ["Volatility", volatility],
-        ["Maturity (years)", expires],
+    const fieldConfig : FieldConfig[] =  [
+        {label: "Underlying price ($)", name: "underlyingPrice"},
+        {label: "Strike price ($)", name: "strikePrice"},
+        {label: "Risk-free interest rate (decimal)", name: "interestRate"},
+        {label: "Volatility (decimal)", name: "volatility"},
+        {label: "Maturity (years)", name: "expires"},
     ];
 
-    const updateStates = () => {
-        setUnderlyingPrice(underlyingPriceTemp);
-        setStrikePrice(strikePriceTemp);
-        setInterestRate(interestRateTemp);
-        setVolatility(volatilityTemp);
-        setExpires(expiresTemp);
-    }
+    const handleChange = (value : string, name: keyof OptionFormInputs) => {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      };
 
     useEffect(() => {
         if (clicked) {
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json"},
-                body: JSON.stringify({
-                    underlyingPrice: underlyingPrice, 
-                    strikePrice: strikePrice, 
-                    interestRate: interestRate,
-                    volatility: volatility,
-                    expires: expires,
-                })
+                body: JSON.stringify(formData),
             }
             const fetchData = async () => {
                 await fetch(ROUTES.getOptionsData, requestOptions)
@@ -85,10 +102,6 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         }
     }, [clicked]);
 
-    const update = (value : string, setState : (args : string) => void) => {
-        setState(value);
-    }
-
     if (!show) {
         return <> </>
     }
@@ -97,53 +110,62 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         if (data == null) {
             return <> </>
         }
-
-        const outputMessages = [
-            ["Monte Carlo Call Price", data.monteCarloCallPrice],
-            ["Monte Carlo Put Price", data.monteCarloPutPrice],
-            ["Black Scholes Call Price", data.blackScholesCallPrice],
-            ["Black Scholes Put Price", data.blackScholesPutPrice],
-        ]
-
-        return (
-        <div>
-            <Typography sx={{ mt: "14px", fontWeight: "bold" }} variant="h6">Input Data:</Typography>
-            <ul style={{ display: "inline-block" }}>
-                {inputMessages.map((input) => {
-                    return <li style={{ textAlign : "left", fontSize: "16px", marginTop : "5px"}}>
-                            {`${input[0]}: ${input[1]}`}
-                        </li>
-                })}
-            </ul>
-            <Typography sx={{fontWeight: "bold" }} variant="h6">Results:</Typography>
-            <ul style={{ display: "inline-block" }}>
-                {outputMessages.map((output) => {
-                    return <li style={{ textAlign : "left", fontSize: "16px", marginTop : "5px"}}>
-                            {`${output[0]}: ${output[1]}`}
-                        </li>
-                })}
-            </ul>
-        </div>
-        )
+        
+        const table : OptionTable[] = [
+            {option : "Monte Carlo", call : data.monteCarloCallPrice, put : data.monteCarloPutPrice },
+            {option : "Black Scholes", call : data.blackScholesCallPrice, put : data.blackScholesPutPrice },
+            {option : "Delta", call : data.deltaCall, put : data.deltaPut },
+            {option : "Gamma", call : data.gammaCall, put : data.gammaPut },
+            {option : "Vega", call : data.vegaCall, put : data.vegaPut },
+            {option : "Theta", call : data.thetaCall, put : data.thetaPut },
+            {option : "Rho", call : data.rhoCall, put : data.rhoPut },
+        ];
+        
+          return (
+            <TableContainer component={Paper}>
+              <Table aria-label="option price table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell>Call Option</TableCell>
+                    <TableCell>Put Option</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {table.map((row) => (
+                    <TableRow key={row.option}>
+                      <TableCell>{row.option}</TableCell>
+                      <TableCell>{row.call}</TableCell>
+                      <TableCell>{row.put}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          );
     }
 
-    let i = 0;
-
     return (
-    <div>
-      <br />
-        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setUnderlyingPriceTemp)}></TextField>
-        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setStrikePriceTemp)}></TextField>
-        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setInterestRateTemp)}></TextField>
-      <br />
-      <br />
-        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth }} onChange={(e) => update(e.target.value, setVolatilityTemp)}></TextField>
-        <TextField variant="outlined" label={inputMessages[i++][0]} size="small" sx={{ width: defaultWidth, ml : "1%" }} onChange={(e) => update(e.target.value, setExpiresTemp)}></TextField>
-      <br />
-      <br />
-        <OptionButton clicked={clicked} setClicked={setClicked} updateStates={updateStates}/>
-        <Display />
-    </div>
+        <div>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <br />
+                    <Grid container spacing={2}>
+                        {fieldConfig.map((field) => {
+                            return <Grid item xs={12}>
+                                <TextField label={field.label} variant="outlined" value={formData[field.name]} size="small" sx={{ width: defaultWidth}} onChange={(e) => handleChange(e.target.value, field.name)} />
+                            </Grid>
+                        })}
+                    </Grid>
+                    <br />
+                    <OptionButton clicked={clicked} setClicked={setClicked}/>
+                </Grid>
+                <Grid item xs={6}>
+                    <br />
+                    <Display />
+                </Grid>
+            </Grid>
+        </div>
   )
 }
 

@@ -16,7 +16,7 @@ A Flask web application that tracks real-time equity prices for different compan
 2. If the data does not already exist in the database, the daily price data is fetched using yfinance, which is then stored in a MySQL database.  
 3. The program retrieves the data and uses HTML and Chart.js to graph the open, high, low, close, and volume price for the specified period.
 4. On each graph, the 20-day and 50-day weighted moving averages are shown. 
-5. The option pricing calculator outputs the call and put prices from both the Black Scholes model as well as a Monte Carlo simultation given the underlying price, stike price, risk-free interest rate, volatility, and maturity.
+5. The option pricing calculator outputs the call and put prices from both the Black Scholes model as well as a Monte Carlo simultation given the underlying price, stike price, risk-free interest rate, volatility, and maturity, generating both theoretical prices and Greek values.
 
 ## Screenshots of Project
 
@@ -24,7 +24,7 @@ A Flask web application that tracks real-time equity prices for different compan
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/236712767-0f7ba0b4-3af3-4d72-b527-0ce5c484eccf.png">
 
 ### Option Price Calculator
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/236712803-aedd9983-d770-4e21-8a1e-4d9cebc67f81.png">
+<img width="1440" alt="image" src="https://github.com/Jerry-spec-code/Equity-Analyzer/assets/78711575/05d24aa1-7012-4bab-8580-fb0dc60a4f35">
 
 ### Flask Server Setup 
 

@@ -6,17 +6,16 @@ import { CircularProgress } from '@mui/material';
 type Props = {
     clicked : boolean;
     setClicked : (args : boolean) => void;
-    updateStates : () => void;
 }
 
-const Btn = ({clicked, setClicked, updateStates} : Props) => {
+const Btn = ({clicked, setClicked} : Props) => {
   return (
     <div>   
-      <Button disabled={clicked} variant="contained" color="primary" sx={{textTransform: "None", width: "25%"}} onClick={() => {setClicked(true); updateStates();}}>
+      <Button disabled={clicked} variant="contained" color="primary" sx={{textTransform: "None", width: "40%"}} onClick={() => {setClicked(true);}}>
         <Typography sx={{ fontSize: "large"}}>
-            Get call and put prices
+            Calculate
         </Typography>
-        {clicked && <CircularProgress sx={{ ml : "15px"}}color="primary" />}
+        {clicked && <CircularProgress sx={{ ml : "20px"}} color="primary" />}
       </Button>
     </div>
   )
