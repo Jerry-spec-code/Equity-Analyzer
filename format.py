@@ -28,17 +28,13 @@ def string_to_float(string):
     except:
         raise Exception("Invalid input")
 
-def interpret_options_data(monte_carlo_call_price, monte_carlo_put_price, black_scholes_call_price, black_scholes_put_price):
-    if black_scholes_call_price is None:
-        black_scholes_call_price = monte_carlo_call_price
-    
-    if black_scholes_put_price is None:
-        black_scholes_put_price = monte_carlo_put_price
-
-    return {
+def interpret_options_data(monte_carlo_call_price, monte_carlo_put_price, black_scholes_call_price, black_scholes_put_price, option_greeks):
+    res = {
         "status" : "success",
         "monteCarloCallPrice" : monte_carlo_call_price,
         "monteCarloPutPrice" : monte_carlo_put_price,
         "blackScholesCallPrice" : black_scholes_call_price,
         "blackScholesPutPrice" : black_scholes_put_price,
     }
+    res.update(option_greeks)
+    return res

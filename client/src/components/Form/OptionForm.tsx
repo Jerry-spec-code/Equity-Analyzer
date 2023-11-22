@@ -13,14 +13,24 @@ interface OptionData {
     status: string;
     monteCarloCallPrice: number;
     monteCarloPutPrice: number;
-    blackScholesCallPrice: number;
-    blackScholesPutPrice: number;
+    blackScholesCallPrice: number | null;
+    blackScholesPutPrice: number | null;
+    deltaCall: number | null;
+    deltaPut: number | null;
+    gammaCall: number | null;
+    gammaPut: number | null;
+    vegaCall: number | null;
+    vegaPut: number | null;
+    thetaCall: number | null;
+    thetaPut: number | null;
+    rhoCall: number | null;
+    rhoPut: number | null;
 };  
 
 interface OptionTable {
     option: string;
-    put: number;
-    call: number;
+    put: number | null;
+    call: number | null;
 };
 
 interface OptionFormInputs {
@@ -104,6 +114,11 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         const table : OptionTable[] = [
             {option : "Monte Carlo", call : data.monteCarloCallPrice, put : data.monteCarloPutPrice },
             {option : "Black Scholes", call : data.blackScholesCallPrice, put : data.blackScholesPutPrice },
+            {option : "Delta", call : data.deltaCall, put : data.deltaPut },
+            {option : "Gamma", call : data.gammaCall, put : data.gammaPut },
+            {option : "Vega", call : data.vegaCall, put : data.vegaPut },
+            {option : "Theta", call : data.thetaCall, put : data.thetaPut },
+            {option : "Rho", call : data.rhoCall, put : data.rhoPut },
         ];
         
           return (
