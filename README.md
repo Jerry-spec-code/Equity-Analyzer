@@ -24,7 +24,7 @@ A Flask web application that tracks real-time equity prices for different compan
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/236712767-0f7ba0b4-3af3-4d72-b527-0ce5c484eccf.png">
 
 ### Option Price Calculator
-<img width="1440" alt="image" src="https://user-images.githubusercontent.com/78711575/236712803-aedd9983-d770-4e21-8a1e-4d9cebc67f81.png">
+<img width="1440" alt="image" src="https://github.com/Jerry-spec-code/Equity-Analyzer/assets/78711575/05d24aa1-7012-4bab-8580-fb0dc60a4f35">
 
 ### Flask Server Setup 
 
