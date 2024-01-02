@@ -28,13 +28,14 @@ def get_daily_price_data():
 def get_option_price_data():
     try: 
         input_data = request.json
+        run_monte_carlo = input_data["runMonteCarlo"]
         underlying_price = f.string_to_float(input_data["underlyingPrice"])
         strike_price = f.string_to_float(input_data["strikePrice"])
         interest_rate = f.string_to_float(input_data["interestRate"]) # Risk-free rate 
         volatility = f.string_to_float(input_data["volatility"]) # Volatility of the underlying (20%)
         expires = f.string_to_float(input_data["expires"]) # Years until expiry
         option = op.Option(underlying_price, strike_price, interest_rate, volatility, expires)
-        monte_carlo_call_price, monte_carlo_put_price = option.get_monte_carlo_option_prices()
+        monte_carlo_call_price, monte_carlo_put_price = option.get_monte_carlo_option_prices() if run_monte_carlo else (None, None)
         black_scholes_call_price, black_scholes_put_price = option.get_black_scholes_option_prices()
         option_greeks = option.get_option_greeks()
         return f.interpret_options_data(monte_carlo_call_price, monte_carlo_put_price, black_scholes_call_price, black_scholes_put_price, option_greeks)
