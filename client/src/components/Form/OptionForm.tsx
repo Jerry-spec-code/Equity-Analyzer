@@ -1,6 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
-import { TextField, Grid, inputAdornmentClasses, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material'
-import Typography from '@mui/material/Typography';
+import { TextField, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormGroup, FormControlLabel, Switch } from '@mui/material'
 import OptionButton from "../Button/OptionButton"
 import ROUTES from '../../config/api';
 
@@ -39,6 +38,7 @@ interface OptionFormInputs {
     interestRate: string;
     volatility: string;
     expires: string;
+    runMonteCarlo: boolean;
 };
 
 interface FieldConfig {
@@ -56,6 +56,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         interestRate: "0.05", // Risk-free rate (5%)
         volatility: "0.20", // Volatility of the underlying asset (20%)
         expires: "1.0", // One year until expiry
+        runMonteCarlo: false,
     });
 
     const defaultWidth = "40%";
@@ -68,7 +69,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
         {label: "Maturity (years)", name: "expires"},
     ];
 
-    const handleChange = (value : string, name: keyof OptionFormInputs) => {
+    const handleChange = (value : string | boolean, name: keyof OptionFormInputs) => {
         setFormData({
           ...formData,
           [name]: value,
@@ -156,6 +157,9 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
                                 <TextField label={field.label} variant="outlined" value={formData[field.name]} size="small" sx={{ width: defaultWidth}} onChange={(e) => handleChange(e.target.value, field.name)} />
                             </Grid>
                         })}
+                        <Grid item xs={12}>
+                            <FormControlLabel control={<Switch checked={formData["runMonteCarlo"]} onChange={(e) => handleChange(e.target.checked, "runMonteCarlo")} />} label="Run Monte Carlo (will take longer to load)" />
+                        </Grid>
                     </Grid>
                     <br />
                     <OptionButton clicked={clicked} setClicked={setClicked}/>
