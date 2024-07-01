@@ -3,6 +3,7 @@
 *.csv
 *.txt
 *archive*
+*__pycache__*
 
 # macOS
 .DS_Store
