@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { TextField, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, FormGroup, FormControlLabel, Switch } from '@mui/material'
-import OptionButton from "../Button/OptionButton"
-import ROUTES from '../../config/api';
+import OptionButton from "../Button/Button"
+import ROUTES from '../../../config/api';
 
 type Props = {
     show : boolean;
@@ -84,7 +84,7 @@ const OptionForm = ({show, setErrorMsg} : Props) => {
                 body: JSON.stringify(formData),
             }
             const fetchData = async () => {
-                await fetch(ROUTES.getOptionsData, requestOptions)
+                await fetch(ROUTES.option, requestOptions)
                     .then((res) => res.json())
                     .then((data) => {
                         console.log(data);

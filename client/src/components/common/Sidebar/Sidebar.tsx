@@ -3,7 +3,7 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Divider from '@mui/material/Divider';
-import Form from '../Form/Form';
+import Form from '../../stock/Form/Form';
 
 type Props = {
     openDrawer : boolean;

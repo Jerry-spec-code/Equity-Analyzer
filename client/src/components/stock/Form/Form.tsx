@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import ROUTES from '../../config/api';
+import ROUTES from '../../../config/api';
 
 type Props = {
     setData : (args : any) => void;
@@ -33,7 +33,7 @@ const Form = ({setData, setErrorMsg} : Props) => {
                 body: JSON.stringify({ticker: ticker, startDate: startDate, endDate: endDate})
             }
             const fetchData = async () => {
-                await fetch(ROUTES.getAllData, requestOptions)
+                await fetch(ROUTES.stock, requestOptions)
                     .then((res) => res.json())
                     .then((data) => {
                         console.log(data);

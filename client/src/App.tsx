@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import PageHeader from './components/PageHeader/PageHeader';
-import Sidebar from './components/Sidebar/Sidebar';
-import Graph from './components/Graph/Graph';
+import PageHeader from './components/common/PageHeader/PageHeader';
+import Sidebar from './components/common/Sidebar/Sidebar';
+import Graph from './components/stock/Graph/Graph';
 import Box from '@mui/material/Box';
-import Error from './components/Error/Error';
-import Tabs from './components/Tabs/Tabs';
-import OptionForm from './components/Form/OptionForm';
+import Error from './components/common/Error/Error';
+import Tabs from './components/common/Tabs/Tabs';
+import OptionForm from './components/option/Form/Form';
 import './App.css';
 
 function App() {
