@@ -12,13 +12,16 @@ class OptionConstants:
         return "put"
 
 class Option:
-    def __init__(self, underlying_price, strike_price, interest_rate, volatility, expires):
-        self.S = underlying_price
-        self.K = strike_price
-        self.r = interest_rate
-        self.v = volatility
-        self.T = expires
-        self.num_sims = 1000000
+    """
+    Properties: underlying_price, strike_price, interest_rate, volatility, expiry
+    """
+    def __init__(self, option_inputs):
+        self.S = option_inputs['underlying_price']
+        self.K = option_inputs['strike_price']
+        self.r = option_inputs['interest_rate']
+        self.v = option_inputs['volatility']
+        self.T = option_inputs['expiry']
+        self.num_sims = 100000
         self.sensitivity_factor = 0.01
         self.days_in_one_year = 365
 

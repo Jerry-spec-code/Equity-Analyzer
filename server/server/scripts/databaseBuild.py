@@ -1,5 +1,5 @@
-from connection import get_connection, close_connection_and_cursor
-from serverInfo import DB_DATABASE
+from server.models.connection import get_connection, close_connection_and_cursor
+from server.config.serverInfo import DB_DATABASE
 
 class DatabaseBuild:
     def __init__(self):
