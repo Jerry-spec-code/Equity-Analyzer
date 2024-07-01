@@ -1,4 +1,4 @@
-from connection import get_connection, close_connection_and_cursor
+from server.models.connection import get_connection, close_connection_and_cursor
 
 def delete_PDC(my_ticker, start_date, end_date): #Deletes data between specified start and end date.
     try: 
@@ -102,7 +102,7 @@ def insert_search_history(my_ticker, start_date, end_date):
         close_connection_and_cursor(connection, cursor, message)
 
 # Checks if price data between specified start and end date already exists.
-def queried_before(my_ticker, start_date, end_date):
+def not_queried_before(my_ticker, start_date, end_date):
     try: 
         connection = get_connection()
         cursor = connection.cursor()

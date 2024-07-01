@@ -1,5 +1,5 @@
 import mysql.connector
-import serverInfo as s
+import server.config.serverInfo as s
 
 def get_connection(database=s.DB_DATABASE, database_exists=True):
     if database_exists:
