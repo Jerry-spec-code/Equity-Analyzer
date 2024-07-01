@@ -1,40 +1,15 @@
 import server.models.stock.queries as q 
 from server.services.marketData.loadPrices import load_from_yfinance
-import csv
 import pandas as pd
+from datetime import datetime
 
-PRICES_TXT = 'txtPrices.txt'
-PRICES_CSV = 'csvPrices.csv'
-
-def write_to_txt(filename, contents):
-    with open(filename, 'w') as f:
-        f.write(contents)
-
-def write_to_csv(filename, header, body):
-    with open(filename, 'w', encoding='UTF8', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-        writer.writerows(body)
-
-def read_daily_prices(filename):
-    lst = []
-    with open(filename) as file:
-        for i, line in enumerate(file):
-            if i < 2: 
-                continue
-            else:
-                temp = []
-                for word in line.split():
-                    temp.append(word)
-                lst.append(temp)
-    return lst
-
-def column_to_list(data):
-    return [row for row in data]
+def column_to_list(column, cast=lambda x : x):
+    return [cast(data) for data in column]
 
 def get_prices_from_data_frame(data_frame):
-    write_to_txt(PRICES_TXT, data_frame) #Writes the dataframe to the prices.txt file. 
-    return read_daily_prices(PRICES_TXT) #Reads daily price data from prices.txt. 
+    if 'Empty DataFrame' in data_frame:
+        return []
+    return [row.split() for row in data_frame.splitlines()][2:]
 
 def update_database_with_price_data(ticker, start_date, end_date, lst):
     q.delete_PDC(ticker, start_date, end_date) #Deletes data between specified start and end date.
@@ -44,16 +19,16 @@ def update_database_with_price_data(ticker, start_date, end_date, lst):
 
 def interpret_prices_from_database(database_result):
     headers = ['date', 'open', 'high', 'low', 'close', 'adjclose', 'volume']
-    write_to_csv(PRICES_CSV, headers, database_result) #writes the result to a csv file.
-    data = pd.read_csv(PRICES_CSV) 
+    data = pd.DataFrame(database_result, columns=headers)
+    date_cast = lambda date : datetime.strftime(date, '%Y-%m-%d')
     return [
-        column_to_list(data.date),
-        column_to_list(data.open),
-        column_to_list(data.high),
-        column_to_list(data.low),
-        column_to_list(data.close),
-        column_to_list(data.adjclose),
-        column_to_list(data.volume)
+        column_to_list(data.date, cast=date_cast),
+        column_to_list(data.open, cast=float),
+        column_to_list(data.high, cast=float),
+        column_to_list(data.low, cast=float),
+        column_to_list(data.close, cast=float),
+        column_to_list(data.adjclose, cast=float),
+        column_to_list(data.volume, cast=float),
     ]
 
 def get_daily_price_data(input_object):
