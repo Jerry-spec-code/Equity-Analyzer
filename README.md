@@ -35,11 +35,9 @@ Perform the following steps from the root directory
 
 ```sh
 cd ./server
-python3 -m venv venv (Set up the virtual environment)
-. venv/bin/activate  (Activate the virtual environment)
-pip3 install -r requirements.txt (Install the required packages)
-python3 ./server/scripts/databaseBuild.py (Sets up the database schema)
-python3 app.py
+make clean
+make build
+make run
 ```
 
 This will run the server on port 5000

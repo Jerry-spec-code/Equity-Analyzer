@@ -1,0 +1,11 @@
+Flask==2.0.2
+Flask-Cors==3.0.10
+mysql-connector-python==8.0.29
+numpy==1.23.1
+pandas==1.4.3
+python-dateutil==2.8.2
+python-dotenv==0.21.0
+scipy==1.10.1
+Werkzeug==2.2.1
+yahoofinancials==1.6
+yfinance==0.1.70

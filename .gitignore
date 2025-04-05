@@ -1,7 +1,5 @@
 *venv
 .env
-*.csv
-*.txt
 *archive*
 *__pycache__*
 
