@@ -31,7 +31,7 @@ https://youtu.be/jVuRS5mW1XA
 
 ### Flask Server Setup 
 
-Perform the following steps from the root directory
+Perform the following steps from the root directory (you may need to install "make")
 
 ```sh
 cd ./server

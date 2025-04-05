@@ -1,11 +1,20 @@
 clean::
 	rm -rf venv
 
-build::
+venv::
 	python3 -m venv venv \
-	&& . venv/bin/activate \
-	&& python3 -m pip install --no-cache-dir -r requirements.txt \
-	&& python3 databaseBuild.py
+	&& . venv/bin/activate
+
+install::
+	python3 -m pip install --no-deps --no-cache-dir -r requirements.txt
+
+build_db::
+	python3 databaseBuild.py
+
+build::
+	$(MAKE) venv \
+	&& $(MAKE) install \
+	&& $(MAKE) build_db
 
 run::
 	python3 app.py
