@@ -9,7 +9,7 @@ def delete_PDC(my_ticker, start_date, end_date): #Deletes data between specified
         connection.commit()
     
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error deleting data from price daily close table: " , e)
 
     finally:
         message = "Data deleted from price daily close table"
@@ -27,13 +27,12 @@ def insert_PDC(my_ticker, lst): #inserts data into price daily close table
         for PDClst in lst:
             PDClst.insert(0, ticker_id)
             tpl = tuple(PDClst)
-            print(tpl)
             sql_insert_query = "insert into pricedailyclose (tickerid, date, close, high, low, open, volume) values (%s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(sql_insert_query, tpl)
             connection.commit()
 
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error inserting into price daily close table: " , e)
 
     finally:
         message = "Data inserted into price daily close table"
@@ -48,7 +47,7 @@ def delete_ticker(my_ticker): #Deletes data from ticker table based on specified
         connection.commit()
     
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error deleting data from ticker table: " , e)
 
     finally:
         message = "Data deleted from ticker table"
@@ -63,7 +62,7 @@ def insert_ticker(my_ticker): #Inserts data from ticker table based on specified
         connection.commit()
     
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error inserting data into ticker table: " , e)
 
     finally:
         message = "Date inserted into ticker table"
@@ -80,7 +79,7 @@ def get_pdc_data(my_ticker, start_date, end_date): #Gets data from pricedailyclo
         records = cursor.fetchall()
 
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error reading data from price daily close table: " , e)
 
     finally:
         message = "Data retrieved from price daily close table"
@@ -96,7 +95,7 @@ def insert_search_history(my_ticker, start_date, end_date):
         connection.commit()
 
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error inserting data into search history table: " , e)
     
     finally:
         message = "Data inserted into search history table"
@@ -113,7 +112,7 @@ def not_queried_before(my_ticker, start_date, end_date):
         return records[0][0] == 0
     
     except Exception as e:
-        print("Error reading data: " , e)
+        print("Error reading data from search history table: " , e)
     
     finally:
         message = "Data read from search history table"
