@@ -1,7 +1,7 @@
 from server.models.connection import get_connection, close_connection_and_cursor
 from server.config.serverInfo import DB_DATABASE
 
-class DatabaseBuild:
+class Database:
     def __init__(self):
         self.database = DB_DATABASE
 
@@ -22,7 +22,7 @@ class DatabaseBuild:
         self.execute_query(query, error_msg="Error creating database: ", success_msg="Database created", database_exists=False)
 
     def drop_database(self):
-        query = "drop database if not exists " + self.database
+        query = "drop database if exists " + self.database
         self.execute_query(query, error_msg="Error dropping database: ", success_msg="Database dropped", database_exists=False)
 
     def create_ticker_table(self):
@@ -30,11 +30,11 @@ class DatabaseBuild:
         self.execute_query(query, error_msg="Error creating ticker table: ", success_msg="Ticker table created", database_exists=True)
 
     def drop_ticker_table(self):
-        query = "drop table if not exists `" + self.database + "`.`ticker`"
+        query = "drop table if exists `" + self.database + "`.`ticker`"
         self.execute_query(query, error_msg="Error dropping ticker table: ", success_msg="Ticker table dropped", database_exists=True)
 
     def create_PDC_table(self):
-        query = "create table if not exists `" + self.database + "`.`pricedailyclose` (`tickerid` int not null, `date` datetime not null, `open` decimal(12, 4) null, `high` decimal(12, 4) null, `low` decimal(12, 4) null, `close` decimal(12, 4) null, `adjclose` decimal(12, 4) null, `volume` decimal(20, 2) null, primary key (`tickerid`, `date`))"
+        query = "create table if not exists `" + self.database + "`.`pricedailyclose` (`tickerid` int not null, `date` datetime not null, `close` decimal(12, 4) null, `high` decimal(12, 4) null, `low` decimal(12, 4) null, `open` decimal(12, 4) null, `volume` decimal(20, 2) null, primary key (`tickerid`, `date`))"
         self.execute_query(query, error_msg="Error creating price daily close table: ", success_msg="Price daily close table created", database_exists=True)
 
     def drop_PDC_table(self):
@@ -49,12 +49,20 @@ class DatabaseBuild:
         query = "drop table if exists `" + self.database + "`.`searchhistory`"
         self.execute_query(query, error_msg="Error dropping search history table: ", success_msg="Search history table dropped", database_exists=True)
 
+def teardown_DB():
+    db = Database()
+    db.drop_PDC_table()
+    db.drop_ticker_table()
+    db.drop_search_history_table()
+    db.drop_database()
+
 def build_DB():
-    db = DatabaseBuild()
+    db = Database()
     db.create_database()
     db.create_search_history_table()
     db.create_ticker_table()
     db.create_PDC_table()
 
 if __name__ == '__main__':
+    teardown_DB()
     build_DB()

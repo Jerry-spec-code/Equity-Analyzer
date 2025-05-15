@@ -13,7 +13,7 @@ const Graph = ({show, data} : Props) => {
     return <> </>
   }
 
-  const possibleGraphs = ["Closing", "Opening", "High", "Low", "AdjClose", "Volume"];
+  const possibleGraphs = ["Closing", "High", "Low", "Opening", "Volume"]
 
   const stockData = (key : string, yVars : any) => {
     return {

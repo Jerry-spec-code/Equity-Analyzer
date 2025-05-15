@@ -27,7 +27,8 @@ def insert_PDC(my_ticker, lst): #inserts data into price daily close table
         for PDClst in lst:
             PDClst.insert(0, ticker_id)
             tpl = tuple(PDClst)
-            sql_insert_query = "insert into pricedailyclose (tickerid, date, open, high, low, close, adjclose, volume) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+            print(tpl)
+            sql_insert_query = "insert into pricedailyclose (tickerid, date, close, high, low, open, volume) values (%s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(sql_insert_query, tpl)
             connection.commit()
 
@@ -72,7 +73,7 @@ def get_pdc_data(my_ticker, start_date, end_date): #Gets data from pricedailyclo
     try: 
         connection = get_connection()
         cursor = connection.cursor()
-        sql_select_query = ("select date, open, high, low, close, adjclose, volume from pricedailyclose p" 
+        sql_select_query = ("select date, close, high, low, open, volume from pricedailyclose p" 
                             " inner join ticker t on t.tickerid = p.tickerid" 
                             " AND t.ticker = (%s) where p.date between (%s) and (%s)")
         cursor.execute(sql_select_query, (my_ticker, start_date, end_date))
@@ -109,6 +110,7 @@ def not_queried_before(my_ticker, start_date, end_date):
         sql_select_query = "select count(*) from searchhistory where ticker = (%s) and startdate <= (%s) and enddate >= (%s)"
         cursor.execute(sql_select_query, (my_ticker, start_date, end_date))
         records = cursor.fetchall()
+        return records[0][0] == 0
     
     except Exception as e:
         print("Error reading data: " , e)
@@ -116,4 +118,3 @@ def not_queried_before(my_ticker, start_date, end_date):
     finally:
         message = "Data read from search history table"
         close_connection_and_cursor(connection, cursor, message)
-        return records[0][0] == 0

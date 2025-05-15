@@ -8,7 +8,7 @@ def object_from_inputs(ticker, start_date, end_date):
     }
 
 def interpret_daily_price_data(data):
-    possible_graphs = ["", "Opening", "High", "Low", "Closing", "AdjClose", "Volume"]
+    possible_graphs = ["", "Closing", "High", "Low", "Opening", "Volume"]
     res = {}
     res["x-data"] = data[0]
     for i, title in enumerate(possible_graphs):

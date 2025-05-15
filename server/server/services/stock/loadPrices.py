@@ -9,7 +9,7 @@ def column_to_list(column, cast=lambda x : x):
 def get_prices_from_data_frame(data_frame):
     if 'Empty DataFrame' in data_frame:
         return []
-    return [row.split() for row in data_frame.splitlines()][2:]
+    return [row.split() for row in data_frame.splitlines()][3:]
 
 def update_database_with_price_data(ticker, start_date, end_date, lst):
     q.delete_PDC(ticker, start_date, end_date) #Deletes data between specified start and end date.
@@ -18,7 +18,7 @@ def update_database_with_price_data(ticker, start_date, end_date, lst):
     q.insert_search_history(ticker, start_date, end_date)  
 
 def interpret_prices_from_database(database_result):
-    headers = ['date', 'open', 'high', 'low', 'close', 'adjclose', 'volume']
+    headers = ['date', 'close', 'high', 'low', 'open', 'volume']
     data = pd.DataFrame(database_result, columns=headers)
     date_cast = lambda date : datetime.strftime(date, '%Y-%m-%d')
     return [
@@ -27,7 +27,6 @@ def interpret_prices_from_database(database_result):
         column_to_list(data.high, cast=float),
         column_to_list(data.low, cast=float),
         column_to_list(data.close, cast=float),
-        column_to_list(data.adjclose, cast=float),
         column_to_list(data.volume, cast=float),
     ]
 

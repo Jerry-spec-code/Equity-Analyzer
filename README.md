@@ -13,6 +13,7 @@ https://youtu.be/jVuRS5mW1XA
 6. MySQL
 7. React
 8. Chart.js
+9. Makefile
 
 ## Key features: 
 1. The user specifies a ticker as well as a start and end date. 
@@ -29,19 +30,6 @@ https://youtu.be/jVuRS5mW1XA
 ### Option Price Calculator
 <img width="1440" alt="image" src="https://github.com/Jerry-spec-code/Equity-Analyzer/assets/78711575/05d24aa1-7012-4bab-8580-fb0dc60a4f35">
 
-### Flask Server Setup 
-
-Perform the following steps from the root directory (you may need to install "make")
-
-```sh
-cd ./server
-make clean
-make build
-make run
-```
-
-This will run the server on port 5000
-
 ##  Backend Environment variables 
 
 | Variable    | Description                                 |
@@ -54,22 +42,25 @@ This will run the server on port 5000
 
 Note: Backend Environment variables can be supplied via a `.env` file in the server directory. See  `./server/example.env` for an example 
 
-### Frontend React Setup
-```sh
-cd ./client
-npm install
-npm start
-```
-
-This will run the application on port 3000. Open http://localhost:3000 to view it in your browser.
-
-Note: To run the app without the Frontend React setup, perform the steps in the Server Flask Setup, then 
-Open http://localhost:5000 to view the server side version of the app in your browser.
-
 ##  Frontend Environment variables 
 
 | Variable    | Description                                 |
 | ----------- | ------------------------------------------- |
 | NODE_ENV    | `development`                               |
 
-Note: Frontend Environment variables can be supplied via a `.env` file in the client directory. See  `./client/example.env` for an example 
+Note: Frontend Environment variables can be supplied via a `.env` file in the client directory. See  `./client/example.env` for an example
+
+## Project Setup
+
+To run the project, you will need to open two separate terminals.
+- In the first terminal, run `make backend`. This will install all the Python packages in a virtual environment and run the server on port 5000.
+- In the second terminal, run `make frontend`. This will install all the TypeScript packages and run the application on port 3000. Open http://localhost:3000 to view the result in your browser.
+
+### Other Make Commands
+| Command                  | Description                                                   |
+| -----------------------  | ------------------------------------------------------------- |
+| `make install_frontend`  | Install all the frontend TypeScript packages                  |
+| `make start_frontend`    | Start the frontend without installing packages                |
+| `make install_backend`   | Setup virtual environment and install backend Python packages |
+| `make start_backend`     | Start the server without installing packages                  |
+| `make clean_backend`     | Destroys the virtual environment and removes Python packages  |
