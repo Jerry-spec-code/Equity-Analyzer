@@ -64,5 +64,4 @@ def build_DB():
     db.create_PDC_table()
 
 if __name__ == '__main__':
-    teardown_DB()
     build_DB()
