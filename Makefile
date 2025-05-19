@@ -27,8 +27,8 @@ install_backend::
 build_db::
 	(cd ./server && $(ACTIVATE_VENV) && $(PYTHON3_EXE) databaseBuild.py)
 
-run_backend::
+start_backend::
 	(cd ./server && $(ACTIVATE_VENV) && $(PYTHON3_EXE) app.py)
 
 backend::
-	make install_backend && make build_db && make run_backend
+	make install_backend && make build_db && make start_backend
